@@ -1,0 +1,84 @@
+# Values for ojt.
+replicaCount: 1
+
+image:
+  repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/ojt
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+# The datasource info for connecting the Grails applciation to the database
+dataSource:
+  username: ""
+  password: ""
+  url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+learningHistorySchedulerJob:
+  enabled: true
+  # Run every 30 minutes
+  schedule: "*/30 * * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
+global:
+  # Resources for the thub-event-scheduler-job container
+  eventSchedulerResources: {}

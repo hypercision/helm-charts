@@ -1,0 +1,231 @@
+# Default values for thub.
+
+nameOverride: ""
+fullnameOverride: ""
+
+# The URL for the ActiveMQ instance. Default is the non-prod MQ instance.
+activemqUrl: "ssl://b-0fb20a24-e074-465c-ab32-e1b383d3ec61-1.mq.us-east-1.amazonaws.com:61617"
+# The username for the ActiveMQ instance
+activemqUsername: "admin"
+# The password for the ActiveMQ instance
+activemqPassword: ""
+# AWS credentials for S3 access
+awsS3keyId: ""
+awsS3secretKey: ""
+# AWS Region for S3 bucket, among other things
+awsRegion: "us-east-1"
+# Name of the S3 bucket where learning history files are stored.
+awsS3LearningHistoryBucketName: "hclabs-dev-traininghub-learning-history"
+# Allow Learning Assignments (aka `AssignedItem`s) in the LMS to drive OJT creation
+createOjtsFromAssignedItems: true
+# Link to a Google Sheet that explains how often each Data Sync job runs.
+dataSyncScheduleLink: ""
+# The `StepType` to use by default when adding another step to an OJT Course
+defaultOjtStepType: "COMPLETE_INCOMPLETE"
+# Item types that should be loaded in by the LMS Data Service.
+# Comma separated string. Blank means accept all types.
+desiredItemTypes: ""
+# Allow observers to specify an AssessmentType when marking a step in OJT as passed or failed.
+enableAssessmentType: true
+# Allow learners to comment on steps in their own OJTs.
+enableOjtLearnerComments: false
+# Allow observers to comment on a step when marking a step in OJT as passed or failed.
+enableOjtObserverComments: false
+# Allow learners to give themselves a SelfAssessmentRating on steps in their own OJTs.
+enableSelfAssessmentRatings: true
+# This value is used to populate the ESIG_MEANING_CODE_ID field in lines of the SuccessFactors learning history file
+# for which the completion status requires an eSignature.
+eSignatureMeaningCode: "RECORD"
+# When this is `true`, OJT users will only be able to see the learners and OJTs of learners who belong to the same organization in the LMS as them.
+# This includes users who have a `null` `organizationID`; they can only see learners who also do not belong to an organization.
+# However, if this is `true` and your user has `ROLE_OJT_FULL_ORG_VISIBILITY`, then you can see all the learners and OJTs.
+onlySeeOjtsInYourOrganization: false
+# The timezone that SuccessFactors expects date and time values to be in the learning history connector input file.
+# It is in a format that can be used by `java.util.TimeZone.getTimeZone()`. This value can be different for each client.
+sfLearningHistoryConnectorTimeZone: "GMT"
+# This value is used for the ES_USER_NAME field in each line of the SuccessFactors learning history file.
+# Oddly enough, ES_USER_NAME shows up in the LMS Learning History Details as Last Update User.
+sfLearningHistoryEsUserName: ""
+# When this field is set, its value will be used for the LST_UPD_USR field in each line
+# of the SuccessFactors learning history file.
+sfLearningHistoryLastUpdatedUser: ""
+# Item classifications that should not be loaded in by the LMS Data Service.
+# Comma separated string. Blank means all classifications will be loaded in.
+undesiredItemClassifications: ""
+
+sflms:
+  # Suffix at the end of all the files picked up by the LMS connectors.
+  # See [ConnectivityConfig.groovy](https://github.com/hypercision/sflms-data-service/blob/68d82a19a619bbd85d075608e4d3276b68d524a2/grails-app/domain/com/hclabs/connectivity/ConnectivityConfig.groovy#L27)
+  connectorSuffix: ""
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # If we want to allow unencrypted access, we can change it to '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+    alb.ingress.kubernetes.io/healthcheck-path: /healthCheck
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+  domain: "hcl-testcloud.com"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+assigned-item-service:
+  resources:
+    requests:
+      memory: 700M
+    limits:
+      memory: 800M
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: ""
+    password: ""
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  resubmitOjtsSchedulerJob:
+    enabled: true
+    # Run on the fourth minute of every 6th hour
+    schedule: "4 */6 * * *"
+
+item-service:
+  resources:
+    requests:
+      memory: 650M
+    limits:
+      memory: 725M
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: ""
+    password: ""
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+lms-data-service:
+  resources:
+    requests:
+      memory: 710M
+    limits:
+      memory: 800M
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: ""
+    password: ""
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Encryption key for storing sensitive values in the database
+  encryptionPassword: ""
+  # Connection info for the SFTP that the LMS interacts with
+  sftp:
+    host: "sftp8.sapsf.com"
+    user: ""
+    password: ""
+    downloadDirectory: "FEED/DOWNLOAD/ROLLCALL"
+    uploadDirectory: "FEED/UPLOAD"
+  assignedItemsSchedulerJob:
+    enabled: true
+    # Run on the 15th minute of every hour from 14 thru 23 and 5
+    schedule: "15 14-23,5 * * *"
+  instructorsSchedulerJob:
+    enabled: true
+    # Run at 2:30 AM every day
+    schedule: "30 2 * * *"
+  itemsSchedulerJob:
+    enabled: true
+    # Run on the 4th minute of every 4th hour
+    schedule: "4 */4 * * *"
+  itemsInactiveSchedulerJob:
+    enabled: true
+    # Run on the 50th minute of every 12th hour
+    schedule: "50 */12 * * *"
+  learnersSchedulerJob:
+    enabled: true
+    # Run on the eigth minute of every 3rd hour
+    schedule: "8 */3 * * *"
+  learningHistoryUploadJob:
+    enabled: true
+    # Run every 33 minutes
+    schedule: "*/33 * * * *"
+
+ojt:
+  resources:
+    requests:
+      memory: 800M
+    limits:
+      memory: 950M
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: ""
+    password: ""
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  learningHistorySchedulerJob:
+    enabled: true
+    # Run every 30 minutes
+    schedule: "*/30 * * * *"
+
+user-service:
+  resources:
+    requests:
+      memory: 700M
+    limits:
+      memory: 800M
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: ""
+    password: ""
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+keycloak-config:
+  # Whether or not to create the realm ConfigMap
+  realmConfigmapEnabled: true
+  # Whether or not to create the realm secret
+  realmSecretEnabled: true
+  # The username for the database that Keycloak connects to
+  databaseUsername: ""
+  # The password for the database that Keycloak connects to
+  databasePassword: ""
+  # Keycloak configuration values
+  realmName: ""
+  clientId: "ojt"
+  clientSecret: ""
+  # Credentials for the admin of the Keycloak server (master realm)
+  masterAdminUsername: ""
+  masterAdminPassword: ""
+  # Credentials for an admin of this realm
+  realmAdminUsername: ""
+  realmAdminPassword: ""
+  # Public URL for accessing the Keycloak server on the internet
+  publicServerUrl: "https://keycloak.hcl-testcloud.com"
+  # URL which is only accessible within the k8s cluster
+  internalServerUrl: "http://keycloak-http.keycloak:80"
+
+global:
+  activemqBrokerConfigMapName: mq-broker-config
+  awsS3AccessConfigMapName: aws-s3-access-config
+  jmsPropertiesConfigMapName: jms-properties-grails-app-config
+  sharedSettingsConfigMapName: shared-settings-config
+  # Resources for the thub-event-scheduler-job container
+  eventSchedulerResources:
+    requests:
+      memory: 500M
+    limits:
+      memory: 600M
+  assignedItemService:
+    serviceName: "assigned-item-service"
+    servicePort: 9003
+  itemService:
+    serviceName: "item-service"
+    servicePort: 9002
+  lmsDataService:
+    serviceName: "lms-data-service"
+    servicePort: 9000
+  ojt:
+    serviceName: "ojt"
+    servicePort: 8082
+  userService:
+    serviceName: "user-service"
+    servicePort: 9001

@@ -1,0 +1,27 @@
+# Default values for keycloak-config.
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Whether or not to create the realm ConfigMap
+realmConfigmapEnabled: true
+# Whether or not to create the realm secret
+realmSecretEnabled: true
+# The username for the database that Keycloak connects to
+databaseUsername: ""
+# The password for the database that Keycloak connects to
+databasePassword: ""
+# Keycloak configuration values
+realmName: ""
+clientId: "ojt"
+clientSecret: ""
+# Credentials for the admin of the Keycloak server (master realm)
+masterAdminUsername: ""
+masterAdminPassword: ""
+# Credentials for an admin of this realm
+realmAdminUsername: ""
+realmAdminPassword: ""
+# Public URL for accessing the Keycloak server on the internet
+publicServerUrl: "https://keycloak.hcl-testcloud.com"
+# URL which is only accessible within the k8s cluster
+internalServerUrl: "http://keycloak-http.keycloak:80"

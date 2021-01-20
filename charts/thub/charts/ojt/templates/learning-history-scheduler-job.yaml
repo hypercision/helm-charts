@@ -1,0 +1,56 @@
+{{- if .Values.learningHistorySchedulerJob.enabled -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "ojt.learningHistorySchedulerJobName" . }}
+  # These labels do not also get added to the pods created by this job
+  labels:
+    {{- include "ojt.labels" . | nindent 4 }}
+    jobCommonName: ojt-learning-history-scheduler-job
+  annotations:
+    description: >
+      Sends a message to the OJT application via ActiveMQ notifying it to generate
+      a learning history file for learners who completed an OJT
+      and have not had their learning submitted to the LMS yet.
+      The learning history file is then uploaded to AWS S3.
+spec:
+  schedule: {{ .Values.learningHistorySchedulerJob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.learningHistorySchedulerJob.concurrencyPolicy | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: thub-event-scheduler-job
+            image: "{{ .Values.learningHistorySchedulerJob.image.repository }}:{{ .Values.learningHistorySchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
+            imagePullPolicy: {{ .Values.learningHistorySchedulerJob.image.pullPolicy }}
+            ports:
+            - containerPort: {{ .Values.learningHistorySchedulerJob.port }}
+              name: http-server
+            resources:
+              {{- toYaml .Values.global.eventSchedulerResources | nindent 14 }}
+            env:
+            - name: server.port
+              value: {{ .Values.learningHistorySchedulerJob.port | quote }}
+            - name: hclabs.scheduler.destinationQueue
+              value: {{ include "thub.ojtJobQueueName" . }}
+            - name: hclabs.scheduler.messageFile
+              value: "./temp/start-ojt-job.json"
+            envFrom:
+            - configMapRef:
+                name: {{ .Values.global.activemqBrokerConfigMapName }}
+            volumeMounts:
+            - name: message-file
+              mountPath: /app/temp
+              readOnly: true
+          volumes:
+            - name: message-file
+              configMap:
+                # Provide the name of the ConfigMap containing the files you want
+                # to add to the container
+                name: ojt-event-scheduler-job-input-files
+                items:
+                  - key: start-ojt-job.json
+                    path: start-ojt-job.json
+          restartPolicy: {{ .Values.learningHistorySchedulerJob.restartPolicy }}
+{{- end }}

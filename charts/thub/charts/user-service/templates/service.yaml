@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.global.userService.serviceName }}
+  labels:
+    {{- include "user-service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.global.userService.servicePort }}
+      name: http-grails
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "user-service.selectorLabels" . | nindent 4 }}

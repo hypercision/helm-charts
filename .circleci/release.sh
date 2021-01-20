@@ -4,6 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# GitHub Auth Token. We're using the token of user hclabsbuildkite
 : "${CR_TOKEN:?Environment variable CR_TOKEN must be set}"
 : "${GIT_REPOSITORY_URL:?Environment variable GIT_REPOSITORY_URL must be set}"
 : "${GIT_USERNAME:?Environment variable GIT_USERNAME must be set}"
@@ -77,11 +78,11 @@ package_chart() {
 }
 
 release_charts() {
-    cr upload -o tylervz -r test-helm-charts
+    cr upload -o hypercision -r helm-charts
 }
 
 update_index() {
-    cr index -o tylervz -r test-helm-charts -c https://tylervz.github.io/test-helm-charts
+    cr index -o hypercision -r helm-charts -c https://hypercision.github.io/helm-charts
 
     git config user.email "$GIT_EMAIL"
     git config user.name "$GIT_USERNAME"

@@ -1,0 +1,60 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "thub.fullname" . -}}
+{{- $ojtServiceName := .Values.global.ojt.serviceName -}}
+{{- $domain := .Values.ingress.domain -}}
+{{- $namespace := .Release.Namespace -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "thub.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    # Add these tags to the AWS Application Load Balancer
+    alb.ingress.kubernetes.io/tags: Environment={{ .Release.Namespace }}
+spec:
+  rules:
+    - host: {{ print "ojt." $namespace "." $domain | quote }}
+      http:
+        paths:
+          {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $ojtServiceName }}
+                port:
+                  name: http-grails
+          {{- else }}
+          - path: /*
+            backend:
+              serviceName: {{ $ojtServiceName }}
+              servicePort: http-grails
+          {{- end }}
+    - host: {{ print "dataorchestration." $namespace "." $domain | quote }}
+      http:
+        paths:
+          {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.global.lmsDataService.serviceName }}
+                port:
+                  name: http-grails
+          {{- else }}
+          - path: /*
+            backend:
+              serviceName: {{ .Values.global.lmsDataService.serviceName }}
+              servicePort: http-grails
+          {{- end }}
+{{- end }}

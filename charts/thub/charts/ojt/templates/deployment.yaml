@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ojt.fullname" . }}
+  labels:
+    {{- include "ojt.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ojt.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        # Automatically roll deployment when a configmap file changes
+        # https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
+        checksum/datasource-config: {{ include (print $.Template.BasePath "/datasource-configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "ojt.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "ojt.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.global.ojt.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthCheck
+              port: http
+            # TODO: test startup time to see how far we can bring this down
+            #  We would use a startupProbe but AWS does not support alpha k8s features.
+            #  https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-you-use-a-startup-probe
+            #  https://github.com/aws/containers-roadmap/issues/947
+            initialDelaySeconds: 90
+          readinessProbe:
+            httpGet:
+              path: /healthCheck
+              port: http
+            initialDelaySeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+          - name: services.user
+            value: "http://{{ .Values.global.userService.serviceName }}:{{ .Values.global.userService.servicePort }}"
+          - name: services.item
+            value: "http://{{ .Values.global.itemService.serviceName }}:{{ .Values.global.itemService.servicePort }}"
+          - name: server.port
+            value: {{ .Values.global.ojt.servicePort | quote }}
+          # The keycloak-shared-secret and keycloak-realm-secret are defined in the keycloak-config chart
+          - name: grails.plugin.springsecurity.rest.keycloak.masterAdminPassword
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-shared-secret
+                key: grails.plugin.springsecurity.rest.keycloak.masterAdminPassword
+          - name: grails.plugin.springsecurity.rest.keycloak.secret
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-realm-secret
+                key: grails.plugin.springsecurity.rest.keycloak.secret
+          - name: grails.plugin.springsecurity.rest.keycloak.realmAdminPassword
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-realm-secret
+                key: grails.plugin.springsecurity.rest.keycloak.realmAdminPassword
+          envFrom:
+          - configMapRef:
+              name: {{ .Values.global.awsS3AccessConfigMapName }}
+          - configMapRef:
+              name: {{ include "ojt.datasourceConfigmapName" . }}
+          - configMapRef:
+              name: {{ .Values.global.activemqBrokerConfigMapName }}
+          - configMapRef:
+              name: {{ .Values.global.sharedSettingsConfigMapName }}
+          # The keycloak ConfigMaps are defined in the keycloak-config chart
+          - configMapRef:
+              name: keycloak-shared-config
+          - configMapRef:
+              name: keycloak-realm-config
+          volumeMounts:
+          - name: application-config
+            mountPath: /app/config
+            readOnly: true
+      volumes:
+        - name: application-config
+          configMap:
+            # Name of the ConfigMap containing the files we want
+            # to add to the container
+            name: {{ .Values.global.jmsPropertiesConfigMapName }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,49 @@
+{{- if .Values.resubmitOjtsSchedulerJob.enabled -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "assigned-item-service.resubmitOjtsSchedulerJobName" . }}
+  # These labels do not also get added to the pods created by this job
+  labels:
+    {{- include "assigned-item-service.labels" . | nindent 4 }}
+    jobCommonName: assigned-item-resubmit-ojts-scheduler-job
+  annotations:
+    description: >
+      Calls an HTTP endpoint of the Assigned Items microservice notifying it to
+      send a message to the OJT application for every AssignedItem that has not yet had
+      a corresponding OJT created in the OJT application that ought to.
+spec:
+  schedule: {{ .Values.resubmitOjtsSchedulerJob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.resubmitOjtsSchedulerJob.concurrencyPolicy | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: thub-event-scheduler-job
+            image: "{{ .Values.resubmitOjtsSchedulerJob.image.repository }}:{{ .Values.resubmitOjtsSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
+            imagePullPolicy: {{ .Values.resubmitOjtsSchedulerJob.image.pullPolicy }}
+            ports:
+            - containerPort: {{ .Values.resubmitOjtsSchedulerJob.port }}
+              name: http-server
+            resources:
+              {{- toYaml .Values.global.eventSchedulerResources | nindent 14 }}
+            env:
+            - name: server.port
+              value: {{ .Values.resubmitOjtsSchedulerJob.port | quote }}
+            - name: hclabs.scheduler.sendViaHttp
+              value: "true"
+            - name: hclabs.scheduler.httpBaseUrl
+              value: "http://{{ .Values.global.assignedItemService.serviceName }}:{{ .Values.global.assignedItemService.servicePort }}"
+            - name: hclabs.scheduler.httpPath
+              value: "/ojtCreation/resubmitCreateOjtMessages"
+            # The MQ env variables do not matter since sendViaHttp is true
+            - name: hclabs.scheduler.destinationQueue
+              value: queue
+            - name: hclabs.scheduler.messageFile
+              value: "./temp/example.json"
+            envFrom:
+            - configMapRef:
+                name: {{ .Values.global.activemqBrokerConfigMapName }}
+          restartPolicy: {{ .Values.resubmitOjtsSchedulerJob.restartPolicy }}
+{{- end }}

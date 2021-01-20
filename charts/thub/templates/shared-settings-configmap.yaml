@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.global.sharedSettingsConfigMapName }}
+  labels:
+    {{- include "thub.labels" . | nindent 4 }}
+  annotations:
+    description: >
+      This ConfigMap contains application configuration that will get applied to all of the thub microservice
+      Grails applications i.e. OJT, User service, item service, etc.
+data:
+  hclabs.awsRegion: {{ .Values.awsRegion | quote }}
+  hclabs.awsS3LearningHistoryBucketName: {{ .Values.awsS3LearningHistoryBucketName | quote }}
+  hclabs.createOjtsFromAssignedItems: {{ .Values.createOjtsFromAssignedItems | quote }}
+  hclabs.dataSyncScheduleLink: {{ .Values.dataSyncScheduleLink | quote }}
+  hclabs.defaultOjtStepType: {{ .Values.defaultOjtStepType | quote }}
+  hclabs.desiredItemTypes: {{ .Values.desiredItemTypes | quote }}
+  hclabs.enableAssessmentType: {{ .Values.enableAssessmentType | quote }}
+  hclabs.enableOjtLearnerComments: {{ .Values.enableOjtLearnerComments | quote }}
+  hclabs.enableOjtObserverComments: {{ .Values.enableOjtObserverComments | quote }}
+  hclabs.enableSelfAssessmentRatings: {{ .Values.enableSelfAssessmentRatings | quote }}
+  hclabs.eSignatureMeaningCode: {{ .Values.eSignatureMeaningCode | quote }}
+  hclabs.onlySeeOjtsInYourOrganization: {{ .Values.onlySeeOjtsInYourOrganization | quote }}
+  hclabs.sfLearningHistoryConnectorTimeZone: {{ .Values.sfLearningHistoryConnectorTimeZone | quote }}
+  hclabs.sfLearningHistoryEsUserName: {{ .Values.sfLearningHistoryEsUserName | quote }}
+  hclabs.sfLearningHistoryLastUpdatedUser: {{ .Values.sfLearningHistoryLastUpdatedUser | quote }}
+  hclabs.undesiredItemClassifications: {{ .Values.undesiredItemClassifications | quote }}
+  sflms.connectorSuffix: {{ .Values.sflms.connectorSuffix | quote }}

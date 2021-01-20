@@ -1,0 +1,160 @@
+# Default values for lms-data-service.
+replicaCount: 1
+
+image:
+  repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/sflms-data-service
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+# The datasource info for connecting the Grails applciation to the database
+dataSource:
+  username: ""
+  password: ""
+  url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Encryption key for storing sensitive values in the database
+encryptionPassword: ""
+
+# Connection info for the SFTP that the LMS interacts with
+sftp:
+  host: "sftp8.sapsf.com"
+  user: ""
+  password: ""
+  downloadDirectory: "FEED/DOWNLOAD/ROLLCALL"
+  uploadDirectory: "FEED/UPLOAD"
+
+assignedItemsSchedulerJob:
+  enabled: true
+  # Run on the 15th minute of every hour from 14 thru 23 and 5
+  schedule: "15 14-23,5 * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
+instructorsSchedulerJob:
+  enabled: true
+  # Run at 2:30 AM every day
+  schedule: "30 2 * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
+itemsSchedulerJob:
+  enabled: true
+  # Run on the 4th minute of every 4th hour
+  schedule: "4 */4 * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
+itemsInactiveSchedulerJob:
+  enabled: true
+  # Run on the 50th minute of every 12th hour
+  schedule: "50 */12 * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
+learnersSchedulerJob:
+  enabled: true
+  # Run on the eigth minute of every 3rd hour
+  schedule: "8 */3 * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
+learningHistoryUploadJob:
+  enabled: true
+  # Run every 33 minutes
+  schedule: "*/33 * * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
+global:
+  # Resources for the thub-event-scheduler-job container
+  eventSchedulerResources: {}

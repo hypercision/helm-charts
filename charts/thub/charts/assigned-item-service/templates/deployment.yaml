@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "assigned-item-service.fullname" . }}
+  labels:
+    {{- include "assigned-item-service.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "assigned-item-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        # Automatically roll deployment when a configmap file changes
+        # https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
+        checksum/datasource-config: {{ include (print $.Template.BasePath "/datasource-configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "assigned-item-service.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "assigned-item-service.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.global.assignedItemService.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthCheck
+              port: http
+            # TODO: test startup time to see how far we can bring this down
+            initialDelaySeconds: 50
+          readinessProbe:
+            httpGet:
+              path: /healthCheck
+              port: http
+            initialDelaySeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+          - name: services.user
+            value: "http://{{ .Values.global.userService.serviceName }}:{{ .Values.global.userService.servicePort }}"
+          - name: services.item
+            value: "http://{{ .Values.global.itemService.serviceName }}:{{ .Values.global.itemService.servicePort }}"
+          - name: server.port
+            value: {{ .Values.global.assignedItemService.servicePort | quote }}
+          envFrom:
+          - configMapRef:
+              name: {{ include "assigned-item-service.datasourceConfigmapName" . }}
+          - configMapRef:
+              name: {{ .Values.global.activemqBrokerConfigMapName }}
+          - configMapRef:
+              name: {{ .Values.global.sharedSettingsConfigMapName }}
+          volumeMounts:
+          - name: application-config
+            mountPath: /app/config
+            readOnly: true
+      volumes:
+        - name: application-config
+          configMap:
+            # Name of the ConfigMap containing the files we want
+            # to add to the container
+            name: {{ .Values.global.jmsPropertiesConfigMapName }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

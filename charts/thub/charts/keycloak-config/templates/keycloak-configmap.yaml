@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-shared-config
+  labels:
+    {{- include "keycloak-config.labels" . | nindent 4 }}
+  annotations:
+    description: this will have the same values in each k8s namespace.
+data:
+  # Public URL for accessing the Keycloak server on the internet
+  keycloak.publicServerUrl: {{ .Values.publicServerUrl | quote }}
+  # URL which is only accessible within the k8s cluster
+  grails.plugin.springsecurity.rest.keycloak.serverUrl: {{ .Values.internalServerUrl | quote }}
+  grails.plugin.springsecurity.rest.keycloak.masterAdminUsername: {{ required "masterAdminUsername cannot be emtpy" .Values.masterAdminUsername | quote }}
+---
+{{- if .Values.realmConfigmapEnabled }}
+# This will have different values for each client/namespace
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-realm-config
+  labels:
+    {{- include "keycloak-config.labels" . | nindent 4 }}
+    {{- include "keycloak-config.keycloakRealmLabel" . | nindent 4 }}
+  annotations:
+    description: >
+      this needs to have different values in each different k8s namespace
+      because customers will each be working in their own namespace
+      and their own Keycloak realm.
+data:
+  grails.plugin.springsecurity.rest.keycloak.realm: {{ required "realmName cannot be emtpy" .Values.realmName | quote }}
+  # Client ID. There is no harm in leaving this value the same for each realm.
+  grails.plugin.springsecurity.rest.keycloak.key: {{ .Values.clientId | quote }}
+  # Username for an admin of this realm. Password is defined in keycloak-realm-secret
+  grails.plugin.springsecurity.rest.keycloak.realmAdminUsername: {{ required "realmAdminUsername cannot be emtpy" .Values.realmAdminUsername | quote }}
+{{- end }}

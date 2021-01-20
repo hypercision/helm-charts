@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.global.lmsDataService.serviceName }}
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.global.lmsDataService.servicePort }}
+      name: http-grails
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "lms-data-service.selectorLabels" . | nindent 4 }}

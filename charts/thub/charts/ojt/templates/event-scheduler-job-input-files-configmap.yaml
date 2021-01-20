@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: ojt-event-scheduler-job-input-files
+  annotations:
+    description: >
+      This ConfigMap contains the files used by thub-event-scheduler-job
+data:
+  start-ojt-job.json: |
+    {
+        "type": "LEARNING_HISTORY",
+        "instruction": "START",
+        "connectivityConfigType": "WEBSERVICE"
+    }

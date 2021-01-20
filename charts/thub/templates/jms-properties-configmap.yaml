@@ -1,0 +1,19 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ .Values.global.jmsPropertiesConfigMapName }}
+  labels:
+    {{- include "thub.labels" . | nindent 4 }}
+  annotations:
+    description: >
+      This ConfigMap needs to be created in each different k8s namespace,
+      because each client environment will run in in its own namespace.
+      Thus, the ConfigMap should have different values in each namespace.
+      The jms.destinations key value pairs need to be loaded in via a properties file
+      rather than normal kubernetes environment varaibles
+      otherwise the JMS plugin will throw an exception.
+data:
+  # Creates a application.properties file on the pod because we are using a volume mount
+  # to specify the complete file contents
+  application.properties: |
+    {{- include "thub.grailsAppConfigmapPropertiesFile" . | nindent 4 }}

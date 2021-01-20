@@ -1,0 +1,13 @@
+# This will have different values for each client/namespace
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lms-data-service.sftpConfigmapName" . }}
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+data:
+  sftp.host: {{ .Values.sftp.host | quote }}
+  sftp.user: {{ required "sftp.user cannot be emtpy" .Values.sftp.user | quote }}
+  sftp.password: {{ required "sftp.password cannot be emtpy" .Values.sftp.password | quote }}
+  sftp.download.directory: {{ .Values.sftp.downloadDirectory | quote }}
+  sftp.upload.directory: {{ .Values.sftp.uploadDirectory | quote }}

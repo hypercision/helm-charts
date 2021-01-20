@@ -1,0 +1,54 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "lms-data-service.eventSchedulerInputFilesConfigmapName" . }}
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+  annotations:
+    description: >
+      This ConfigMap contains files used by thub-event-scheduler-job.
+data:
+  start-assigned-items-job.json: |
+    {
+        "type": "ASSIGNED_ITEMS",
+        "instruction": "START",
+        "communicationType": "SFTP"
+    }
+  start-lms-learning-history-job.json: |
+    {
+        "type": "LEARNING_HISTORY",
+        "instruction": "START",
+        "communicationType": "SFTP"
+    }
+  start-instructors-job.json: |
+    {
+        "type": "INSTRUCTORS",
+        "instruction": "START",
+        "communicationType": "SFTP"
+    }
+  start-items-job.json: |
+    {
+        "type": "ITEMS",
+        "instruction": "START",
+        "communicationType": "SFTP"
+    }
+  start-items-inactive-job.json: |
+    {
+        "type": "ITEMS_INACTIVE",
+        "instruction": "START",
+        "communicationType": "SFTP"
+    }
+  start-learners-job.json: |
+    {
+        "type": "LEARNERS",
+        "instruction": "START",
+        "communicationType": "SFTP"
+    }
+
+{{/*
+Could use this code if we want to load them from files rather than have them here.
+  {{- range $path, $_ := .Files.Glob "job-input-files/**" }}
+  {{ base $path | quote }}: |-
+    {{- $.Files.Get $path | nindent 4 -}}
+  {{- end }}
+*/}}

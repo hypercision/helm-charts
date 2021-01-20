@@ -1,0 +1,9 @@
+# This will have different values for each client/namespace
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lms-data-service.encryptionConfigmapName" . }}
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+data:
+  dataservice.encryption.password: {{ required "encryptionPassword cannot be emtpy" .Values.encryptionPassword | quote }}

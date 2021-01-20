@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   lint-scripts:
     docker:
@@ -32,13 +32,11 @@ jobs:
     machine: true
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "e2:f8:a5:1a:c8:21:5d:3e:02:dc:9d:a6:c1:b6:f6:c5"
       - run:
           command: |
             echo "export GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" >> $BASH_ENV
             echo "export GIT_USERNAME=$CIRCLE_PROJECT_USERNAME" >> $BASH_ENV
+            echo "$CIRCLE_PROJECT_USERNAME"
             .circleci/install_tools.sh
             .circleci/release.sh
 
@@ -53,14 +51,15 @@ workflows:
               ignore: master
             tags:
               ignore: /.*/
-      - install-charts:
-          requires:
-            - lint-charts
-          filters:
-            branches:
-              ignore: master
-            tags:
-              ignore: /.*/
+      # Install fails because the Docker images are private
+      # - install-charts:
+      #     requires:
+      #       - lint-charts
+      #     filters:
+      #       branches:
+      #         ignore: master
+      #       tags:
+      #         ignore: /.*/
   release:
     jobs:
       - release-charts:

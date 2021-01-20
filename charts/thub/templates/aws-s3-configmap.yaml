@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.global.awsS3AccessConfigMapName }}
+  labels:
+    {{- include "thub.labels" . | nindent 4 }}
+  annotations:
+    description: AWS credentials for S3 access. This will have different values in each k8s namespace
+      in case one of them needs to be replaced, the downtime is minimized for other clients.
+data:
+  AWS_ACCESS_KEY_ID: {{ required "awsS3keyId cannot be emtpy" .Values.awsS3keyId | quote }}
+  AWS_SECRET_ACCESS_KEY: {{ required "awsS3secretKey cannot be emtpy" .Values.awsS3secretKey | quote }}

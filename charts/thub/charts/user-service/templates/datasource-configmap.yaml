@@ -1,0 +1,11 @@
+# This will have different values for each client/namespace
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "user-service.datasourceConfigmapName" . }}
+  labels:
+    {{- include "user-service.labels" . | nindent 4 }}
+data:
+  dataSource.username: {{ required "dataSource.username cannot be emtpy" .Values.dataSource.username | quote }}
+  dataSource.password: {{ required "dataSource.password cannot be emtpy" .Values.dataSource.password | quote }}
+  dataSource.url: {{ .Values.dataSource.url | quote }}

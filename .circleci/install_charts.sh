@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly CT_VERSION=v3.0.0-rc.1
+readonly CT_VERSION=v3.3.1
 readonly KIND_VERSION=v0.8.1
 readonly K8S_VERSION=v1.18.2
 

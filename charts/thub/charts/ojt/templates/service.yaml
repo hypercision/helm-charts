@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.global.ojt.serviceName }}
+  labels:
+    {{- include "ojt.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.global.ojt.servicePort }}
+      name: http-grails
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "ojt.selectorLabels" . | nindent 4 }}

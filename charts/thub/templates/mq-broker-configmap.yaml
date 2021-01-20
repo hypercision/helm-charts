@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.global.activemqBrokerConfigMapName }}
+  labels:
+    {{- include "thub.labels" . | nindent 4 }}
+data:
+  spring.activemq.user: {{ .Values.activemqUsername | quote }}
+  spring.activemq.password: {{ .Values.activemqPassword | quote }}
+  spring.activemq.brokerUrl: {{ .Values.activemqUrl | quote }}

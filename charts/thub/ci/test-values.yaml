@@ -1,0 +1,66 @@
+# This file has test values to use when the chart is being linted
+# https://github.com/helm/chart-testing/blob/master/doc/ct_lint.md
+
+# AWS credentials for S3 access
+awsS3keyId: "exampleId"
+awsS3secretKey: "verySecretKey"
+
+assigned-item-service:
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: "test_username"
+    password: "test_password"
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+item-service:
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: "test_username"
+    password: "test_password"
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+lms-data-service:
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: "test_username"
+    password: "test_password"
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Encryption key for storing sensitive values in the database
+  encryptionPassword: "test_password"
+  # Connection info for the SFTP that the LMS interacts with
+  sftp:
+    host: "sftp8.sapsf.com"
+    user: "my_test_user"
+    password: "test_password"
+    downloadDirectory: "FEED/DOWNLOAD/ROLLCALL"
+    uploadDirectory: "FEED/UPLOAD"
+
+ojt:
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: "test_username"
+    password: "test_password"
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+user-service:
+  # The datasource info for connecting the Grails applciation to the database
+  dataSource:
+    username: "test_username"
+    password: "test_password"
+    url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+
+keycloak-config:
+  # The username for the database that Keycloak connects to
+  databaseUsername: "example_keycloak_username"
+  # The password for the database that Keycloak connects to
+  databasePassword: "example_keycloak_password"
+  # Keycloak configuration values
+  realmName: "test-realm"
+  clientId: "ojt"
+  clientSecret: "abcdefg"
+  # Credentials for the admin of the Keycloak server (master realm)
+  masterAdminUsername: "test-admin"
+  masterAdminPassword: "examplePassword"
+  # Credentials for an admin of this realm
+  realmAdminUsername: "realm-admin-username"
+  realmAdminPassword: "anotherPassword"

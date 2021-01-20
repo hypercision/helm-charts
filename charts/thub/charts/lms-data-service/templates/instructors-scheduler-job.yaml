@@ -1,0 +1,51 @@
+{{- if .Values.instructorsSchedulerJob.enabled -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "lms-data-service.instructorsSchedulerJobName" . }}
+  # These labels do not also get added to the pods created by this job
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+    jobCommonName: lms-instructors-scheduler-job
+  annotations:
+    description: >
+      Sends a message to the LMS Data Service application via ActiveMQ notifying it to
+      load instructors from the LMS.
+spec:
+  schedule: {{ .Values.instructorsSchedulerJob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.instructorsSchedulerJob.concurrencyPolicy | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: thub-event-scheduler-job
+            image: "{{ .Values.instructorsSchedulerJob.image.repository }}:{{ .Values.instructorsSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
+            imagePullPolicy: {{ .Values.instructorsSchedulerJob.image.pullPolicy }}
+            ports:
+            - containerPort: {{ .Values.instructorsSchedulerJob.port }}
+              name: http-server
+            resources:
+              {{- toYaml .Values.global.eventSchedulerResources | nindent 14 }}
+            env:
+            - name: server.port
+              value: {{ .Values.instructorsSchedulerJob.port | quote }}
+            - name: hclabs.scheduler.destinationQueue
+              value: {{ include "thub.sfLmsDataJobQueueName" . }}
+            - name: hclabs.scheduler.messageFile
+              value: "./temp/start-instructors-job.json"
+            envFrom:
+            - configMapRef:
+                name: {{ .Values.global.activemqBrokerConfigMapName }}
+            volumeMounts:
+            - name: message-file
+              mountPath: /app/temp
+              readOnly: true
+          volumes:
+            - name: message-file
+              configMap:
+                # Provide the name of the ConfigMap containing the files you want
+                # to add to the container
+                name: {{ include "lms-data-service.eventSchedulerInputFilesConfigmapName" . }}
+          restartPolicy: {{ .Values.instructorsSchedulerJob.restartPolicy }}
+{{- end }}
