@@ -9,8 +9,12 @@ set -o pipefail
 : "${GIT_REPOSITORY_URL:?Environment variable GIT_REPOSITORY_URL must be set}"
 : "${GIT_USERNAME:?Environment variable GIT_USERNAME must be set}"
 : "${GIT_EMAIL:?Environment variable GIT_EMAIL must be set}"
+: "${AWS_REGION:?Environment variable AWS_REGION must be set}"
+: "${ECR_URL:?Environment variable ECR_URL must be set}"
 
 readonly REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel)}"
+
+export HELM_EXPERIMENTAL_OCI=1
 
 main() {
     pushd "$REPO_ROOT" > /dev/null
@@ -33,6 +37,14 @@ main() {
         echo "No code changes. Nothing to release."
         exit
     fi
+
+    # TODO: install the AWS CLI or have this executed on a different image since I think the aws-cli orb needs phython
+    echo "Authenticate the Helm client to the Amazon ECR registry..."
+    aws ecr get-login-password \
+     --region "$AWS_REGION" | helm registry login \
+     --username AWS \
+     --password-stdin "$ECR_URL"
+
 
     rm -rf .cr-release-packages
     mkdir -p .cr-release-packages
@@ -75,6 +87,12 @@ add_chart_repos() {
 package_chart() {
     local chart="$1"
     helm package "$chart" --destination .cr-release-packages --dependency-update
+    # TODO edit this command so it return's the version of the chart
+    chart_version=$(helm show chart "$chart")
+    # TODO figure out how to extract the chart's name so that is parameterized too
+    chart_name="thub"
+    helm chart save "$chart" "342628741687.dkr.ecr.us-west-2.amazonaws.com/helm-charts/$chart_name:$chart_version"
+    helm chart push "$chart" "342628741687.dkr.ecr.us-west-2.amazonaws.com/helm-charts/$chart_name:$chart_version"
 }
 
 release_charts() {

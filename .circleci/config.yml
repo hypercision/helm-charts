@@ -55,6 +55,9 @@ jobs:
           command: |
             echo "export GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" >> $BASH_ENV
             echo "export GIT_USERNAME=$CIRCLE_PROJECT_USERNAME" >> $BASH_ENV
+            # TODO: have these values loaded from parameters
+            echo "export AWS_REGION=us-west-2" >> $BASH_ENV
+            echo "export ECR_URL=342628741687.dkr.ecr.us-west-2.amazonaws.com" >> $BASH_ENV
             .circleci/install_tools.sh
             .circleci/release.sh
 
