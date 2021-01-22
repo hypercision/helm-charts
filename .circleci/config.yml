@@ -36,7 +36,6 @@ jobs:
           command: |
             echo "export GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" >> $BASH_ENV
             echo "export GIT_USERNAME=$CIRCLE_PROJECT_USERNAME" >> $BASH_ENV
-            echo "$CIRCLE_PROJECT_USERNAME"
             .circleci/install_tools.sh
             .circleci/release.sh
 
