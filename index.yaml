@@ -3,6 +3,25 @@ entries:
   thub:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-01-28T21:06:51.812636932Z"
+    description: A Helm chart for OJT and Traininghub (thub) microservices
+    digest: 10f5f98291a72240e4b3f5ac9364bbbebab05761ce81176e43d939a5a9bf4c51
+    home: https://hypercision.github.io/helm-charts
+    name: thub
+    sources:
+    - https://github.com/hypercision/masterdata-services
+    - https://github.com/hypercision/traininghub
+    - https://github.com/hypercision/item-service
+    - https://github.com/hypercision/sflms-data-service
+    - https://github.com/hypercision/thub-event-scheduler-job
+    - https://github.com/hypercision/thub-assigned-item-service
+    - https://github.com/hypercision/user-service
+    type: application
+    urls:
+    - https://github.com/hypercision/helm-charts/releases/download/thub-0.3.7/thub-0.3.7.tgz
+    version: 0.3.7
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-01-28T21:04:15.734381713Z"
     description: A Helm chart for OJT and Traininghub (thub) microservices
     digest: 746582ef224f431efb4cbc4028d5d8ae6df6f717803c03e931074cedd75f6b91
