@@ -16,11 +16,14 @@ metadata:
   labels:
     {{- include "thub.labels" . | nindent 4 }}
   annotations:
+    {{- if .Values.ingress.group.enabled }}
+    alb.ingress.kubernetes.io/group.name: {{ required "ingress.group.name is required when ingress.group.enabled is true" .Values.ingress.group.name }}
+    {{- end }}
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
     # Add these tags to the AWS Application Load Balancer
-    alb.ingress.kubernetes.io/tags: Environment={{ .Release.Namespace }}
+    alb.ingress.kubernetes.io/tags: k8s.namespace/{{ .Release.Namespace }}={{ .Release.Namespace }}
 spec:
   rules:
     - host: {{ print "ojt." $namespace "." $domain | quote }}

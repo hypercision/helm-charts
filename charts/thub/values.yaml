@@ -60,6 +60,11 @@ sflms:
 
 ingress:
   enabled: true
+  group:
+    # Set this to true in order to share an application load balancer
+    # across multiple ingress resources using IngressGroups
+    enabled: false
+    name: ""
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
