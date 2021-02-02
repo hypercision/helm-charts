@@ -97,6 +97,13 @@ Create the name of the CronJob assigned-items-scheduler-job
 {{- end }}
 
 {{/*
+Create the name of the CronJob lms-end-incomplete-jobs-scheduler-job
+*/}}
+{{- define "lms-data-service.endIncompleteJobsSchedulerJobName" -}}
+{{ include "lms-data-service.name" . }}-end-incomplete-jobs-scheduler-job
+{{- end }}
+
+{{/*
 Create the name of the CronJob instructors-scheduler-job
 */}}
 {{- define "lms-data-service.instructorsSchedulerJobName" -}}

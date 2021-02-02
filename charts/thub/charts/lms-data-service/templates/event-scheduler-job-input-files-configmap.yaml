@@ -44,6 +44,11 @@ data:
         "instruction": "START",
         "communicationType": "SFTP"
     }
+  lms-end-incomplete-jobs.json: |
+    {
+      "type": "END_INCOMPLETE_DATA_SYNCS",
+      "instruction": "START"
+    }
 
 {{/*
 Could use this code if we want to load them from files rather than have them here.

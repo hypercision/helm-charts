@@ -1,0 +1,51 @@
+{{- if .Values.endIncompleteJobsSchedulerJob.enabled -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "lms-data-service.endIncompleteJobsSchedulerJobName" . }}
+  # These labels do not also get added to the pods created by this job
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+    jobCommonName: lms-end-incomplete-jobs-scheduler-job
+  annotations:
+    description: >
+      Sends a message to the LMS Data Service application via ActiveMQ notifying it to
+      stop any data sync jobs that have a status of RUNNING but have already ended prematurely.
+spec:
+  schedule: {{ .Values.endIncompleteJobsSchedulerJob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.endIncompleteJobsSchedulerJob.concurrencyPolicy | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: thub-event-scheduler-job
+            image: "{{ .Values.endIncompleteJobsSchedulerJob.image.repository }}:{{ .Values.endIncompleteJobsSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
+            imagePullPolicy: {{ .Values.endIncompleteJobsSchedulerJob.image.pullPolicy }}
+            ports:
+            - containerPort: {{ .Values.endIncompleteJobsSchedulerJob.port }}
+              name: http-server
+            resources:
+              {{- toYaml .Values.global.eventSchedulerResources | nindent 14 }}
+            env:
+            - name: server.port
+              value: {{ .Values.endIncompleteJobsSchedulerJob.port | quote }}
+            - name: hclabs.scheduler.destinationQueue
+              value: {{ include "thub.sfLmsDataJobQueueName" . }}
+            - name: hclabs.scheduler.messageFile
+              value: "./temp/lms-end-incomplete-jobs.json"
+            envFrom:
+            - configMapRef:
+                name: {{ .Values.global.activemqBrokerConfigMapName }}
+            volumeMounts:
+            - name: message-file
+              mountPath: /app/temp
+              readOnly: true
+          volumes:
+            - name: message-file
+              configMap:
+                # Provide the name of the ConfigMap containing the files you want
+                # to add to the container
+                name: {{ include "lms-data-service.eventSchedulerInputFilesConfigmapName" . }}
+          restartPolicy: {{ .Values.endIncompleteJobsSchedulerJob.restartPolicy }}
+{{- end }}
