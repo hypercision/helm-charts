@@ -90,6 +90,19 @@ assignedItemsSchedulerJob:
   port: 8099
   restartPolicy: Never
 
+endIncompleteJobsSchedulerJob:
+  enabled: true
+  # Run every 20 minutes
+  schedule: "*/20 * * * *"
+  concurrencyPolicy: "Replace"
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+
 instructorsSchedulerJob:
   enabled: true
   # Run at 2:30 AM every day
