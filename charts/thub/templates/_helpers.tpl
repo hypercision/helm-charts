@@ -95,5 +95,5 @@ Default tag to use for the 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-eve
 Docker image
 */}}
 {{- define "thub.eventSchedulerJobTag" -}}
-v1.1.1
+v1.1.2
 {{- end }}
