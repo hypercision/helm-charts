@@ -135,6 +135,10 @@ lms-data-service:
     enabled: true
     # Run on the 15th minute of every hour from 14 thru 23 and 5
     schedule: "15 14-23,5 * * *"
+  endIncompleteJobsSchedulerJob:
+    enabled: true
+    # Run every 20 minutes
+    schedule: "*/20 * * * *"
   instructorsSchedulerJob:
     enabled: true
     # Run at 2:30 AM every day
