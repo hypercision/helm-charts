@@ -124,6 +124,20 @@ item-service:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Liveness probe configuration
+  livenessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 80
+    timeoutSeconds: 3
+  # Readiness probe configuration
+  readinessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 30
+    timeoutSeconds: 3
 
 lms-data-service:
   resources:
@@ -136,6 +150,20 @@ lms-data-service:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Liveness probe configuration
+  livenessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 110
+    timeoutSeconds: 3
+  # Readiness probe configuration
+  readinessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 30
+    timeoutSeconds: 3
   # Encryption key for storing sensitive values in the database
   encryptionPassword: ""
   # Connection info for the SFTP that the LMS interacts with
