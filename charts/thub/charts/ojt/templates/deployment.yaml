@@ -36,20 +36,18 @@ spec:
             - name: http
               containerPort: {{ .Values.global.ojt.servicePort }}
               protocol: TCP
+          #  We would use a startupProbe as well but AWS does not support alpha k8s features,
+          #  so we can't use one until AWS supports k8s 1.20
+          #  https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-you-use-a-startup-probe
+          #  https://github.com/aws/containers-roadmap/issues/947
+          {{- with .Values.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /healthCheck
-              port: http
-            # TODO: test startup time to see how far we can bring this down
-            #  We would use a startupProbe but AWS does not support alpha k8s features.
-            #  https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-you-use-a-startup-probe
-            #  https://github.com/aws/containers-roadmap/issues/947
-            initialDelaySeconds: 90
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: /healthCheck
-              port: http
-            initialDelaySeconds: 10
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:

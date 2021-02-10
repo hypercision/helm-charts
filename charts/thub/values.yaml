@@ -4,7 +4,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # The URL for the ActiveMQ instance. Default is the non-prod MQ instance.
-activemqUrl: "ssl://b-0fb20a24-e074-465c-ab32-e1b383d3ec61-1.mq.us-east-1.amazonaws.com:61617"
+activemqUrl: "ssl://example.mq.us-east-1.amazonaws.com:61617"
 # The username for the ActiveMQ instance
 activemqUsername: "admin"
 # The password for the ActiveMQ instance
@@ -213,6 +213,20 @@ ojt:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Liveness probe configuration
+  livenessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 130
+    timeoutSeconds: 3
+  # Readiness probe configuration
+  readinessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 40
+    timeoutSeconds: 3
   learningHistorySchedulerJob:
     enabled: true
     # Run every 30 minutes
@@ -229,6 +243,20 @@ user-service:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Liveness probe configuration
+  livenessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 130
+    timeoutSeconds: 3
+  # Readiness probe configuration
+  readinessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 40
+    timeoutSeconds: 3
 
 keycloak-config:
   # Whether or not to create the realm ConfigMap
