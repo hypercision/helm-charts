@@ -94,6 +94,20 @@ assigned-item-service:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Liveness probe configuration
+  livenessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 80
+    timeoutSeconds: 3
+  # Readiness probe configuration
+  readinessProbe: |
+    httpGet:
+      path: /healthCheck
+      port: http
+    initialDelaySeconds: 40
+    timeoutSeconds: 3
   resubmitOjtsSchedulerJob:
     enabled: true
     # Run on the fourth minute of every 6th hour
