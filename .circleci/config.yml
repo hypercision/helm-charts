@@ -1,4 +1,21 @@
 version: 2.1
+# Pipeline parameters
+parameters:
+  update_chart_version:
+    type: boolean
+    default: false
+    description: >
+      This gets set to true when the Pipeline is triggered by an API call to automatically
+      update the appVersion of a chart
+  application_name:
+    type: string
+    default: "assigned-item-service"
+    description: "Name of the application's chart i.e. 'assigned-item-service' or 'ojt'"
+  application_version:
+    type: string
+    default: "v0.0.1"
+    description: "the new application version for the chart i.e. v1.5.0"
+
 jobs:
   lint-scripts:
     docker:
@@ -10,6 +27,8 @@ jobs:
             shellcheck -x .circleci/install_charts.sh
             shellcheck -x .circleci/install_tools.sh
             shellcheck -x .circleci/release.sh
+            shellcheck -x .circleci/update_app_version_of_chart.sh
+            shellcheck -x .circleci/version.sh
 
   lint-charts:
     docker:
@@ -39,6 +58,26 @@ jobs:
             .circleci/install_tools.sh
             .circleci/release.sh
 
+  update-app-version-of-chart:
+    machine: true
+    steps:
+      - checkout
+      - when:
+          condition: << pipeline.parameters.update_chart_version >>
+          steps:
+            - run:
+                command: |
+                  echo "echo application_name is << pipeline.parameters.application_name >>"
+                  echo "echo application_version is << pipeline.parameters.application_version >>"
+            - run:
+                command: |
+                  echo "export GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" >> $BASH_ENV
+                  echo "export GIT_USERNAME=$CIRCLE_PROJECT_USERNAME" >> $BASH_ENV
+                  echo "export GIT_BRANCH=$CIRCLE_BRANCH" >> $BASH_ENV
+                  echo "export application_name=<< pipeline.parameters.application_name >>" >> $BASH_ENV
+                  echo "export application_version=<< pipeline.parameters.application_version >>" >> $BASH_ENV
+                  .circleci/update_app_version_of_chart.sh
+
 workflows:
   version: 2
   lint-and-test:
@@ -67,3 +106,10 @@ workflows:
               ignore: /.*/
             branches:
               only: master
+  update-app-version-of-chart:
+    jobs:
+      - update-app-version-of-chart:
+          filters:
+            branches:
+              only:
+                - master

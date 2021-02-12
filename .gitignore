@@ -8,3 +8,6 @@
 .settings
 .deploy
 venv
+
+*/test_trigger.sh
+test.sh
