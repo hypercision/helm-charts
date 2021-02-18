@@ -60,6 +60,10 @@ sflms:
 
 ingress:
   enabled: true
+  # This can be set to true once AWS Load Balancer supports pathType.
+  # Setting it to true at the moment results in an ingress that does not work as expected.
+  # https://github.com/kubernetes-sigs/aws-load-balancer-controller/pull/1772
+  enablePathType: false
   group:
     # Set this to true in order to share an application load balancer
     # across multiple ingress resources using IngressGroups

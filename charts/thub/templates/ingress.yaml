@@ -3,7 +3,8 @@
 {{- $ojtServiceName := .Values.global.ojt.serviceName -}}
 {{- $domain := .Values.ingress.domain -}}
 {{- $namespace := .Release.Namespace -}}
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
+{{- $useV1Ingress := and (.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") .Values.ingress.enablePathType -}}
+{{- if $useV1Ingress -}}
 apiVersion: networking.k8s.io/v1
 {{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
@@ -29,7 +30,7 @@ spec:
     - host: {{ print "ojt." $namespace "." $domain | quote }}
       http:
         paths:
-          {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+          {{- if $useV1Ingress }}
           - path: /
             pathType: Prefix
             backend:
@@ -46,7 +47,7 @@ spec:
     - host: {{ print "dataorchestration." $namespace "." $domain | quote }}
       http:
         paths:
-          {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+          {{- if $useV1Ingress }}
           - path: /
             pathType: Prefix
             backend:
