@@ -27,7 +27,7 @@ metadata:
     alb.ingress.kubernetes.io/tags: k8s.namespace/{{ .Release.Namespace }}={{ .Release.Namespace }}
 spec:
   rules:
-    - host: {{ print "ojt." $namespace "." $domain | quote }}
+    - host: {{ print "ojt-" $namespace "." $domain | quote }}
       http:
         paths:
           {{- if $useV1Ingress }}
@@ -44,7 +44,7 @@ spec:
               serviceName: {{ $ojtServiceName }}
               servicePort: http-grails
           {{- end }}
-    - host: {{ print "dataorchestration." $namespace "." $domain | quote }}
+    - host: {{ print "dataorchestration-" $namespace "." $domain | quote }}
       http:
         paths:
           {{- if $useV1Ingress }}
