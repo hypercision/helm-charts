@@ -1,8 +1,6 @@
 {{- if .Values.global.ingress.enabled -}}
 {{- $fullName := include "thub.fullname" . -}}
 {{- $ojtServiceName := .Values.global.ojt.serviceName -}}
-{{- $domain := .Values.global.ingress.domain -}}
-{{- $namespace := .Release.Namespace -}}
 {{- $useV1Ingress := and (.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") .Values.global.ingress.enablePathType -}}
 {{- if $useV1Ingress -}}
 apiVersion: networking.k8s.io/v1
@@ -44,7 +42,7 @@ spec:
               serviceName: {{ $ojtServiceName }}
               servicePort: http-grails
           {{- end }}
-    - host: {{ print "dataorchestration-" $namespace "." $domain | quote }}
+    - host: {{ include "thub.lmsDataServiceServerUrl" . | quote }}
       http:
         paths:
           {{- if $useV1Ingress }}

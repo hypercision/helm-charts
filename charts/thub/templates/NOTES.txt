@@ -9,5 +9,6 @@ To learn more about the release, try:
 
 1. Get the application URL by running these commands:
 {{- if .Values.global.ingress.enabled }}
-{{ include "thub.ojtServerUrl" . }}
+{{ print "https://" (include "thub.ojtServerUrl" .) | quote }}
+{{ print "https://" (include "thub.lmsDataServiceServerUrl" .) | quote }}
 {{- end }}

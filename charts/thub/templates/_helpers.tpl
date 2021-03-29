@@ -95,6 +95,25 @@ Create the OJT Server URL / Ingress path Environment Variable
 {{- end }}
 
 {{/*
+Create the LMS Data Service Server URL / Ingress path
+*/}}
+{{- define "thub.lmsDataServiceServerUrl" -}}
+{{- if .Values.global.ingress.enabled -}}
+{{ print "dataorchestration-" .Release.Namespace "." .Values.global.ingress.domain }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create the LMS Data Service Server URL / Ingress path Environment Variable
+*/}}
+{{- define "thub.lmsDataServiceServerUrlEnv" -}}
+{{- if .Values.global.ingress.enabled -}}
+- name: grails.serverURL
+  value: {{ print "https://" (include "thub.lmsDataServiceServerUrl" .) | quote }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create the contents of the Grails JMS properties file configmap
 */}}
 {{- define "thub.grailsAppConfigmapPropertiesFile" -}}
