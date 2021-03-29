@@ -48,6 +48,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+          {{- include "thub.lmsDataServiceServerUrlEnv" . | nindent 10 }}
           - name: server.port
             value: {{ .Values.global.lmsDataService.servicePort | quote }}
           # The keycloak-shared-secret and keycloak-realm-secret are defined in the keycloak-config chart

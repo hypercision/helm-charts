@@ -58,28 +58,6 @@ sflms:
   # See [ConnectivityConfig.groovy](https://github.com/hypercision/sflms-data-service/blob/68d82a19a619bbd85d075608e4d3276b68d524a2/grails-app/domain/com/hclabs/connectivity/ConnectivityConfig.groovy#L27)
   connectorSuffix: ""
 
-ingress:
-  enabled: true
-  # This can be set to true once AWS Load Balancer supports pathType.
-  # Setting it to true at the moment results in an ingress that does not work as expected.
-  # https://github.com/kubernetes-sigs/aws-load-balancer-controller/pull/1772
-  enablePathType: false
-  group:
-    # Set this to true in order to share an application load balancer
-    # across multiple ingress resources using IngressGroups
-    enabled: false
-    name: ""
-  annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    # If we want to allow unencrypted access, we can change it to '[{"HTTP": 80}, {"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
-    alb.ingress.kubernetes.io/healthcheck-path: /healthCheck
-    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
-  domain: "hcl-testcloud.com"
-
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -291,6 +269,27 @@ global:
   awsS3AccessConfigMapName: aws-s3-access-config
   jmsPropertiesConfigMapName: jms-properties-grails-app-config
   sharedSettingsConfigMapName: shared-settings-config
+  ingress:
+    enabled: true
+    # This can be set to true once AWS Load Balancer supports pathType.
+    # Setting it to true at the moment results in an ingress that does not work as expected.
+    # https://github.com/kubernetes-sigs/aws-load-balancer-controller/pull/1772
+    enablePathType: false
+    group:
+      # Set this to true in order to share an application load balancer
+      # across multiple ingress resources using IngressGroups
+      enabled: false
+      name: ""
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      # If we want to allow unencrypted access, we can change it to '[{"HTTP": 80}, {"HTTPS": 443}]'
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+      alb.ingress.kubernetes.io/healthcheck-path: /healthCheck
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+    domain: "hcl-testcloud.com"
   # Resources for the thub-event-scheduler-job container
   eventSchedulerResources:
     requests:

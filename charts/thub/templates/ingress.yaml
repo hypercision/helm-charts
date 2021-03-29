@@ -1,9 +1,7 @@
-{{- if .Values.ingress.enabled -}}
+{{- if .Values.global.ingress.enabled -}}
 {{- $fullName := include "thub.fullname" . -}}
 {{- $ojtServiceName := .Values.global.ojt.serviceName -}}
-{{- $domain := .Values.ingress.domain -}}
-{{- $namespace := .Release.Namespace -}}
-{{- $useV1Ingress := and (.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") .Values.ingress.enablePathType -}}
+{{- $useV1Ingress := and (.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") .Values.global.ingress.enablePathType -}}
 {{- if $useV1Ingress -}}
 apiVersion: networking.k8s.io/v1
 {{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -17,17 +15,17 @@ metadata:
   labels:
     {{- include "thub.labels" . | nindent 4 }}
   annotations:
-    {{- if .Values.ingress.group.enabled }}
-    alb.ingress.kubernetes.io/group.name: {{ required "ingress.group.name is required when ingress.group.enabled is true" .Values.ingress.group.name }}
+    {{- if .Values.global.ingress.group.enabled }}
+    alb.ingress.kubernetes.io/group.name: {{ required "ingress.group.name is required when ingress.group.enabled is true" .Values.global.ingress.group.name }}
     {{- end }}
-    {{- with .Values.ingress.annotations }}
+    {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
     # Add these tags to the AWS Application Load Balancer
     alb.ingress.kubernetes.io/tags: k8s.namespace/{{ .Release.Namespace }}={{ .Release.Namespace }}
 spec:
   rules:
-    - host: {{ print "ojt-" $namespace "." $domain | quote }}
+    - host: {{ include "thub.ojtServerUrl" . | quote }}
       http:
         paths:
           {{- if $useV1Ingress }}
@@ -44,7 +42,7 @@ spec:
               serviceName: {{ $ojtServiceName }}
               servicePort: http-grails
           {{- end }}
-    - host: {{ print "dataorchestration-" $namespace "." $domain | quote }}
+    - host: {{ include "thub.lmsDataServiceServerUrl" . | quote }}
       http:
         paths:
           {{- if $useV1Ingress }}

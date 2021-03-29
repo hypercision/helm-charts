@@ -51,6 +51,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+          {{- include "thub.ojtServerUrlEnv" . | nindent 10 }}
           - name: services.user
             value: "http://{{ .Values.global.userService.serviceName }}:{{ .Values.global.userService.servicePort }}"
           - name: services.item
