@@ -3,7 +3,7 @@
 nameOverride: ""
 fullnameOverride: ""
 
-# The URL for the ActiveMQ instance. Default is the non-prod MQ instance.
+# The URL for the ActiveMQ instance.
 activemqUrl: "ssl://example.mq.us-east-1.amazonaws.com:61617"
 # The username for the ActiveMQ instance
 activemqUsername: "admin"
@@ -36,6 +36,11 @@ enableSelfAssessmentRatings: true
 # This value is used to populate the ESIG_MEANING_CODE_ID field in lines of the SuccessFactors learning history file
 # for which the completion status requires an eSignature.
 eSignatureMeaningCode: "RECORD"
+# A comma separated list of tiles that specifies which tiles should be accessible by users who are not super admins i.e. `"ojtcourses, archived"`
+# This only matters if blockAllTiles is true.
+ojtAllowedTiles: ""
+# When this is `true`, no tiles appear in the OJT portal other than those specified by `allowedTiles`
+ojtBlockAllTiles: false
 # When this is `true`, OJT users will only be able to see the learners and OJTs of learners who belong to the same organization in the LMS as them.
 # This includes users who have a `null` `organizationID`; they can only see learners who also do not belong to an organization.
 # However, if this is `true` and your user has `ROLE_OJT_FULL_ORG_VISIBILITY`, then you can see all the learners and OJTs.
