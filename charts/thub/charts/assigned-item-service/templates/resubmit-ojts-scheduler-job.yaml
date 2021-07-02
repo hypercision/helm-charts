@@ -23,6 +23,7 @@ spec:
           - name: thub-event-scheduler-job
             image: "{{ .Values.resubmitOjtsSchedulerJob.image.repository }}:{{ .Values.resubmitOjtsSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
             imagePullPolicy: {{ .Values.resubmitOjtsSchedulerJob.image.pullPolicy }}
+            command: ["java", "-jar", "/home/app/application.jar", "http",  "/ojtCreation/resubmitCreateOjtMessages"]
             ports:
             - containerPort: {{ .Values.resubmitOjtsSchedulerJob.port }}
               name: http-server
@@ -31,19 +32,10 @@ spec:
             env:
             - name: server.port
               value: {{ .Values.resubmitOjtsSchedulerJob.port | quote }}
-            - name: hclabs.scheduler.sendViaHttp
-              value: "true"
             - name: hclabs.scheduler.httpBaseUrl
               value: "http://{{ .Values.global.assignedItemService.serviceName }}:{{ .Values.global.assignedItemService.servicePort }}"
-            - name: hclabs.scheduler.httpPath
-              value: "/ojtCreation/resubmitCreateOjtMessages"
             # The MQ env variables do not matter since sendViaHttp is true
             - name: hclabs.scheduler.destinationQueue
               value: queue
-            - name: hclabs.scheduler.messageFile
-              value: "./temp/example.json"
-            envFrom:
-            - configMapRef:
-                name: {{ .Values.global.activemqBrokerConfigMapName }}
           restartPolicy: {{ .Values.resubmitOjtsSchedulerJob.restartPolicy }}
 {{- end }}

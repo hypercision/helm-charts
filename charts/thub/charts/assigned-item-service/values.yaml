@@ -88,7 +88,7 @@ resubmitOjtsSchedulerJob:
   schedule: "4 */6 * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""
