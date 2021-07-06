@@ -99,7 +99,7 @@ assignedItemsSchedulerJob:
   schedule: "15 14-23,5 * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""
@@ -112,7 +112,7 @@ endIncompleteJobsSchedulerJob:
   schedule: "*/20 * * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""
@@ -125,7 +125,7 @@ instructorsSchedulerJob:
   schedule: "30 2 * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""
@@ -138,7 +138,7 @@ itemsSchedulerJob:
   schedule: "4 */4 * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""
@@ -151,7 +151,7 @@ itemsInactiveSchedulerJob:
   schedule: "50 */12 * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""
@@ -164,7 +164,7 @@ learnersSchedulerJob:
   schedule: "8 */3 * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""
@@ -177,7 +177,7 @@ learningHistoryUploadJob:
   schedule: "*/33 * * * *"
   concurrencyPolicy: "Replace"
   image:
-    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
     tag: ""

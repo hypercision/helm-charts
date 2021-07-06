@@ -129,9 +129,9 @@ jms.destinations.sfLmsDataJobQueue={{ include "thub.sfLmsDataJobQueueName" . }}
 {{- end }}
 
 {{/*
-Default tag to use for the 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-job
+Default tag to use for the 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
 Docker image
 */}}
 {{- define "thub.eventSchedulerJobTag" -}}
-v1.1.2
+v1.1.1
 {{- end }}

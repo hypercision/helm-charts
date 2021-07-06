@@ -22,6 +22,7 @@ spec:
           - name: thub-event-scheduler-job
             image: "{{ .Values.instructorsSchedulerJob.image.repository }}:{{ .Values.instructorsSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
             imagePullPolicy: {{ .Values.instructorsSchedulerJob.image.pullPolicy }}
+            command: ["java", "-jar", "/home/app/application.jar", "jms", "./temp/start-instructors-job.json"]
             ports:
             - containerPort: {{ .Values.instructorsSchedulerJob.port }}
               name: http-server
@@ -32,14 +33,24 @@ spec:
               value: {{ .Values.instructorsSchedulerJob.port | quote }}
             - name: hclabs.scheduler.destinationQueue
               value: {{ include "thub.sfLmsDataJobQueueName" . }}
-            - name: hclabs.scheduler.messageFile
-              value: "./temp/start-instructors-job.json"
-            envFrom:
-            - configMapRef:
-                name: {{ .Values.global.activemqBrokerConfigMapName }}
+            - name: micronaut.jms.activemq.classic.connection-string
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.brokerUrl
+            - name: micronaut.jms.activemq.classic.username
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.user
+            - name: micronaut.jms.activemq.classic.password
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.password
             volumeMounts:
             - name: message-file
-              mountPath: /app/temp
+              mountPath: /home/app/temp
               readOnly: true
           volumes:
             - name: message-file

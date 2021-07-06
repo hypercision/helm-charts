@@ -24,6 +24,7 @@ spec:
           - name: thub-event-scheduler-job
             image: "{{ .Values.learningHistorySchedulerJob.image.repository }}:{{ .Values.learningHistorySchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
             imagePullPolicy: {{ .Values.learningHistorySchedulerJob.image.pullPolicy }}
+            command: ["java", "-jar", "/home/app/application.jar", "jms", "./temp/start-ojt-job.json"]
             ports:
             - containerPort: {{ .Values.learningHistorySchedulerJob.port }}
               name: http-server
@@ -34,14 +35,24 @@ spec:
               value: {{ .Values.learningHistorySchedulerJob.port | quote }}
             - name: hclabs.scheduler.destinationQueue
               value: {{ include "thub.ojtJobQueueName" . }}
-            - name: hclabs.scheduler.messageFile
-              value: "./temp/start-ojt-job.json"
-            envFrom:
-            - configMapRef:
-                name: {{ .Values.global.activemqBrokerConfigMapName }}
+            - name: micronaut.jms.activemq.classic.connection-string
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.brokerUrl
+            - name: micronaut.jms.activemq.classic.username
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.user
+            - name: micronaut.jms.activemq.classic.password
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.password
             volumeMounts:
             - name: message-file
-              mountPath: /app/temp
+              mountPath: /home/app/temp
               readOnly: true
           volumes:
             - name: message-file
