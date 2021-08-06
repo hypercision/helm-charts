@@ -21,7 +21,7 @@ run_ct_container() {
 
 cleanup() {
     echo 'Removing ct container...'
-    docker kill ct > /dev/null 2>&1
+    docker kill ct >/dev/null 2>&1
 
     echo 'Done!'
 }

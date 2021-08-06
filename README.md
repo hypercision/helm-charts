@@ -5,7 +5,7 @@ This repo holds Helm charts that we use for deploying our applications. We are u
 Add the repo as follows:
 
 ```console
-$ helm repo add hypercision https://hypercision.github.io/helm-charts
+helm repo add hypercision https://hypercision.github.io/helm-charts
 ```
 
 ## Developing the Helm charts

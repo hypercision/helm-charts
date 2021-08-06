@@ -13,7 +13,7 @@ set -o pipefail
 readonly REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel)}"
 
 main() {
-    pushd "$REPO_ROOT" > /dev/null
+    pushd "$REPO_ROOT" >/dev/null
 
     echo "Fetching tags..."
     git fetch --tags
@@ -43,7 +43,7 @@ main() {
     echo "Identifying changed charts since tag '$latest_tag'..."
 
     local changed_charts=()
-    readarray -t changed_charts <<< "$(git diff --find-renames --name-only "$latest_tag_rev" -- charts | cut -d '/' -f 2 | uniq)"
+    readarray -t changed_charts <<<"$(git diff --find-renames --name-only "$latest_tag_rev" -- charts | cut -d '/' -f 2 | uniq)"
 
     if [[ -n "${changed_charts[*]}" ]]; then
         add_chart_repos
@@ -59,11 +59,11 @@ main() {
         echo "Nothing to do. No chart changes detected."
     fi
 
-    popd > /dev/null
+    popd >/dev/null
 }
 
 find_latest_tag() {
-    if ! git describe --tags --abbrev=0 2> /dev/null; then
+    if ! git describe --tags --abbrev=0 2>/dev/null; then
         git rev-list --max-parents=0 --first-parent HEAD
     fi
 }

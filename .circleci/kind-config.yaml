@@ -1,5 +1,7 @@
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
+metadata:
+  name: circleci-kind-config
 nodes:
   - role: control-plane
   - role: worker
