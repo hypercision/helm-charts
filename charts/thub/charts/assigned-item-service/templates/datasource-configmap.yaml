@@ -9,3 +9,4 @@ data:
   dataSource.username: {{ required "dataSource.username cannot be emtpy" .Values.dataSource.username | quote }}
   dataSource.password: {{ required "dataSource.password cannot be emtpy" .Values.dataSource.password | quote }}
   dataSource.url: {{ .Values.dataSource.url | quote }}
+  liquibaseUrl: {{ .Values.liquibaseUrl | quote }}
