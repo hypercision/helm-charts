@@ -100,16 +100,15 @@ assigned-item-service:
     schedule: "4 */6 * * *"
 
 item-service:
-  resources:
-    requests:
-      memory: 650M
-    limits:
-      memory: 725M
+  resources: {}
+  liquibaseResources: {}
   # The datasource info for connecting the Grails applciation to the database
   dataSource:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  # Same database URL, but potentially with different parameters
+  liquibaseUrl: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name?useSSL=false"
   # Liveness probe configuration
   livenessProbe: |
     httpGet:

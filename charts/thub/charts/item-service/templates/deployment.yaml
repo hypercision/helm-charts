@@ -60,6 +60,32 @@ spec:
           - name: application-config
             mountPath: /app/config
             readOnly: true
+      {{- if .Values.liquibaseImage.enabled }}
+      initContainers:
+        - name: "liquibase-{{ .Chart.Name }}"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.liquibaseImage.repository }}:{{ .Values.liquibaseImage.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.liquibaseImage.pullPolicy }}
+          resources:
+            {{- toYaml .Values.liquibaseResources | nindent 12 }}
+          env:
+          - name: URL
+            valueFrom:
+              configMapKeyRef:
+                name: {{ include "item-service.datasourceConfigmapName" . }}
+                key: liquibaseUrl
+          - name: USERNAME
+            valueFrom:
+              configMapKeyRef:
+                name: {{ include "item-service.datasourceConfigmapName" . }}
+                key: dataSource.username
+          - name: PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: {{ include "item-service.datasourceConfigmapName" . }}
+                key: dataSource.password
+      {{- end }}
       volumes:
         - name: application-config
           configMap:
