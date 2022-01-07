@@ -79,7 +79,7 @@ spec:
               name: keycloak-realm-config
           volumeMounts:
           - name: application-config
-            mountPath: /app/config
+            mountPath: /home/app/config
             readOnly: true
       {{- if .Values.liquibaseImage.enabled }}
       initContainers:

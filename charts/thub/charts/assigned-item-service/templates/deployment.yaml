@@ -62,7 +62,7 @@ spec:
               name: {{ .Values.global.sharedSettingsConfigMapName }}
           volumeMounts:
           - name: application-config
-            mountPath: /app/config
+            mountPath: /home/app/config
             readOnly: true
       {{- if .Values.liquibaseImage.enabled }}
       initContainers:
