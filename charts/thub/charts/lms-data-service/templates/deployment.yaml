@@ -21,6 +21,7 @@ spec:
         # https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
         checksum/datasource-config: {{ include (print $.Template.BasePath "/datasource-configmap.yaml") . | sha256sum }}
         checksum/sftp-config: {{ include (print $.Template.BasePath "/sftp-configmap.yaml") . | sha256sum }}
+        checksum/jms-properties-config: {{ include "thub.grailsAppConfigmapPropertiesFile" . | sha256sum }}
       labels:
         {{- include "lms-data-service.selectorLabels" . | nindent 8 }}
     spec:
