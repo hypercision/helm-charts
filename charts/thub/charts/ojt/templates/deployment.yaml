@@ -20,6 +20,7 @@ spec:
         # Automatically roll deployment when a configmap file changes
         # https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
         checksum/datasource-config: {{ include (print $.Template.BasePath "/datasource-configmap.yaml") . | sha256sum }}
+        checksum/jms-properties-config: {{ include "thub.grailsAppConfigmapPropertiesFile" . | sha256sum }}
       labels:
         {{- include "ojt.selectorLabels" . | nindent 8 }}
     spec:
