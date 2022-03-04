@@ -17,6 +17,15 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            {{- with .Values.itemsSchedulerJob.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          labels:
+            {{- with .Values.itemsSchedulerJob.podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
         spec:
           containers:
           - name: thub-event-scheduler-job
