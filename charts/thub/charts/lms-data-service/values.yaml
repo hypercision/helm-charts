@@ -126,6 +126,8 @@ assignedItemsSchedulerJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 endIncompleteJobsSchedulerJob:
   enabled: true
@@ -139,6 +141,8 @@ endIncompleteJobsSchedulerJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 instructorsSchedulerJob:
   enabled: true
@@ -152,6 +156,8 @@ instructorsSchedulerJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 itemsSchedulerJob:
   enabled: true
@@ -165,6 +171,8 @@ itemsSchedulerJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 itemsInactiveSchedulerJob:
   enabled: true
@@ -178,6 +186,8 @@ itemsInactiveSchedulerJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 learnersSchedulerJob:
   enabled: true
@@ -191,6 +201,8 @@ learnersSchedulerJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 learningHistoryUploadJob:
   enabled: true
@@ -204,6 +216,8 @@ learningHistoryUploadJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 global:
   # Resources for the thub-event-scheduler-job container

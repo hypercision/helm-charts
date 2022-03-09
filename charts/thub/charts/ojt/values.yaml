@@ -115,6 +115,8 @@ learningHistorySchedulerJob:
     tag: ""
   port: 8099
   restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
 
 global:
   # Resources for the thub-event-scheduler-job container
