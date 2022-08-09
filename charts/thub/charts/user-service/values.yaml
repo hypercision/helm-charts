@@ -22,6 +22,10 @@ dataSource:
   username: ""
   password: ""
   url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
+  dbProperties:
+    useUnicode: true
+    characterEncoding: "UTF-8"
+    connectionCollation: "utf8mb4_unicode_520_ci"
 # Same database URL, but potentially with different parameters
 liquibaseUrl: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name?useSSL=false"
 
