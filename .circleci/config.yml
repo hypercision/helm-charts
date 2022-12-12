@@ -79,7 +79,6 @@ jobs:
                   .circleci/update_app_version_of_chart.sh
 
 workflows:
-  version: 2
   lint-and-test:
     jobs:
       - lint-scripts
