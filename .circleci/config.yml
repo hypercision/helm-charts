@@ -106,10 +106,14 @@ workflows:
               ignore: /.*/
             branches:
               only: master
-  update-app-version-of-chart:
+  update_app_version_of_chart:
     jobs:
-      - update-app-version-of-chart:
+      - hold: # This job requires manual approval in the CircleCI web application.
+          type: approval
           filters:
             branches:
               only:
                 - master
+      - update-app-version-of-chart:
+          requires:
+            - hold
