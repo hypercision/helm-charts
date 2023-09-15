@@ -2,7 +2,7 @@
 
 set -o errexit
 
-readonly CHART_RELEASER_VERSION=1.1.1
+readonly CHART_RELEASER_VERSION=1.6.0
 
 echo "Installing Helm..."
 curl -fsSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3

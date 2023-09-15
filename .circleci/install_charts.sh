@@ -4,9 +4,9 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly CT_VERSION=v3.3.1
-readonly KIND_VERSION=v0.8.1
-readonly K8S_VERSION=v1.18.2
+readonly CT_VERSION=v3.9.0
+readonly KIND_VERSION=v0.20.=0
+readonly K8S_VERSION=v1.27.5
 
 run_ct_container() {
     echo 'Running ct container...'
