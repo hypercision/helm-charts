@@ -63,13 +63,16 @@ jobs:
     machine: true
     steps:
       - checkout
+      - run:
+          name: Inspect pipeline parameters
+          command: |
+            echo "update_chart_version is << pipeline.parameters.update_chart_version >>"
+            echo "application_name is << pipeline.parameters.application_name >>"
+            echo "application_version is << pipeline.parameters.application_version >>"
+            echo "trigger_source is << pipeline.trigger_source >>"
       - when:
           condition: << pipeline.parameters.update_chart_version >>
           steps:
-            - run:
-                command: |
-                  echo "echo application_name is << pipeline.parameters.application_name >>"
-                  echo "echo application_version is << pipeline.parameters.application_version >>"
             - run:
                 command: |
                   echo "export GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" >> $BASH_ENV
@@ -106,7 +109,7 @@ workflows:
               ignore: /.*/
             branches:
               only: master
-  update-app-version-of-chart:
+  update_app_version_of_chart:
     jobs:
       - update-app-version-of-chart:
           filters:
