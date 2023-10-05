@@ -81,6 +81,12 @@ spec:
               name: {{ include "lms-data-service.encryptionConfigmapName" . }}
           - configMapRef:
               name: {{ include "lms-data-service.sftpConfigmapName" . }}
+          - configMapRef:
+              name: {{ include "lms-data-service.webserviceConfigmapName" . }}
+          {{- if eq .Values.global.lmsType "WORKDAY" }}
+          - configMapRef:
+              name: {{ include "lms-data-service.workdayConfigmapName" . }}
+          {{- end }}
           # The keycloak ConfigMaps are defined in the keycloak-config chart
           - configMapRef:
               name: keycloak-shared-config

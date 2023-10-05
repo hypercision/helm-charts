@@ -20,6 +20,7 @@ data:
   hclabs.enableOjtObserverComments: {{ .Values.enableOjtObserverComments | quote }}
   hclabs.enableSelfAssessmentRatings: {{ .Values.enableSelfAssessmentRatings | quote }}
   hclabs.eSignatureMeaningCode: {{ .Values.eSignatureMeaningCode | quote }}
+  hclabs.lmsType: {{ .Values.global.lmsType | quote }}
   hclabs.ojt.allowedTiles: {{ .Values.ojtAllowedTiles | quote }}
   hclabs.ojt.blockAllTiles: {{ .Values.ojtBlockAllTiles | quote }}
   hclabs.ojt.requireTotalHours: {{ .Values.ojtRequireTotalHours | quote }}

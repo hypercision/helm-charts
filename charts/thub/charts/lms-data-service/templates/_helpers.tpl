@@ -83,6 +83,20 @@ Create the name of the SFTP configmap
 {{- end }}
 
 {{/*
+Create the name of the Webservice configmap
+*/}}
+{{- define "lms-data-service.webserviceConfigmapName" -}}
+{{ include "lms-data-service.name" . }}-webservice-config
+{{- end }}
+
+{{/*
+Create the name of the Workday setup configmap
+*/}}
+{{- define "lms-data-service.workdayConfigmapName" -}}
+{{ include "lms-data-service.name" . }}-workday-config
+{{- end }}
+
+{{/*
 Create the name of the thub-event-scheduler-job input files configmap
 */}}
 {{- define "lms-data-service.eventSchedulerInputFilesConfigmapName" -}}
