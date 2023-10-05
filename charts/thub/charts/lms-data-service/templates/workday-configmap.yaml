@@ -1,0 +1,17 @@
+# This will have different values for each client/namespace.
+# This contains Environment Variables that need to be set when integrating with Workday.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lms-data-service.workdayConfigmapName" . }}
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+data:
+  # TODO: figure out which configmap to put this in. It would be nice to just define it once for all our microservices.
+  #  "SFLMS" or "WORKDAY"
+  hclabs.lmsType: {{ .Values.hclabs.lmsType | quote }}
+  # TODO: make sure it is an integer before putting it in quotes
+  workday.api.readTimeoutMinutes: {{ .Values.workday.apiReadTimeoutMinutes | quote }}
+  # TODO: only have this included in the configmap if it is set in the values to something other than null.
+  #  Otherwise rely on the default defined by the LMS Data Service application.yml
+  workday.api.version: {{ .Values.workday.apiVersion | quote }}

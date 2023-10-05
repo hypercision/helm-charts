@@ -120,12 +120,14 @@ Create the contents of the Grails JMS properties file configmap
 jms.destinations.assignedItemQueue={{ .Release.Namespace }}-assignedItemQueue
 jms.destinations.assignedItemOjtCreationQueue={{ .Release.Namespace }}-assignedItemOjtCreationQueue
 jms.destinations.assignedItemOjtCreationResultsQueue={{ .Release.Namespace }}-assignedItemOjtCreationResultsQueue
+jms.destinations.attendeeRegistrationQueue={{ .Release.Namespace }}-attendeeRegistrationQueue
 jms.destinations.completionStatusQueue={{ .Release.Namespace }}-completionStatusQueue
 jms.destinations.instructorQueue={{ .Release.Namespace }}-instructorQueue
 jms.destinations.itemQueue={{ .Release.Namespace }}-itemQueue
 jms.destinations.learnerQueue={{ .Release.Namespace }}-learnerQueue
 jms.destinations.ojtJobQueue={{ include "thub.ojtJobQueueName" . }}
 jms.destinations.sfLmsDataJobQueue={{ include "thub.sfLmsDataJobQueueName" . }}
+jms.destinations.scheduledOfferingQueue={{ .Release.Namespace }}-scheduledOfferingQueue
 {{- end }}
 
 {{/*

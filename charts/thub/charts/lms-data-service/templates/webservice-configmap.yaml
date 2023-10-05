@@ -1,0 +1,14 @@
+# This will have different values for each client/namespace.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lms-data-service.webserviceConfigmapName" . }}
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+data:
+  thub.setup.webservice.url: {{ .Values.webservice.url | quote }}
+  thub.setup.webservice.username: {{ required "webservice.username cannot be emtpy" .Values.webservice.username | quote }}
+  thub.setup.webservice.password: {{ required "webservice.password cannot be emtpy" .Values.webservice.password | quote }}
+  # The Workday tenant name i.e. "calwatergroup1" or SuccessFactors companyID
+  thub.setup.webservice.systemId: {{ .Values.webservice.systemId | quote }}
+
