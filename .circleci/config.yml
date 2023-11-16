@@ -74,6 +74,7 @@ jobs:
           condition: << pipeline.parameters.update_chart_version >>
           steps:
             - run:
+                name: Run update_app_version_of_chart.sh
                 command: |
                   echo "export GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" >> $BASH_ENV
                   echo "export GIT_USERNAME=$CIRCLE_PROJECT_USERNAME" >> $BASH_ENV
