@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Note when testing this script that on macOS grep -oP is not supported so you can use homebrew to instal grep.
+# Note when testing this script that on macOS grep -oP is not supported so you can use homebrew to install grep.
 # https://stackoverflow.com/a/22704387/8049180
 # And for the sed commands to work you will need to add '' -e after -i
 # https://stackoverflow.com/a/19457213/8049180
@@ -52,18 +52,18 @@ replace="appVersion: $application_version"
 sed -i "s/$search/$replace/" "$application_chart_path"
 
 # Extract the current chart version
-chart_version=$(grep -oP '(?<=^version: ).+' "$application_chart_path")
-echo "chart_version is $chart_version"
+subchart_version=$(grep -oP '(?<=^version: ).+' "$application_chart_path")
+echo "subchart_version is $subchart_version"
 # Get the incremented chart version
-new_chart_version=$(.circleci/version.sh "$chart_version" bug)
-echo "new_chart_version is $new_chart_version"
+new_subchart_version=$(.circleci/version.sh "$subchart_version" bug)
+echo "new_subchart_version is $new_subchart_version"
 
-search="version: $chart_version"
-replace="version: $new_chart_version"
+search="version: $subchart_version"
+replace="version: $new_subchart_version"
 # Replace the current chart version with the new chart version
 sed -i "s/$search/$replace/" "$application_chart_path"
 
-# Edit the thub chart.yaml, bumping its chart version
+# Edit the thub chart.yaml, bumping its chart version and the version of the subchart being updated.
 thub_chart_path="charts/thub/Chart.yaml"
 # Extract the current chart version
 chart_version=$(grep -oP '(?<=^version: ).+' $thub_chart_path)
@@ -76,5 +76,12 @@ search="version: $chart_version"
 replace="version: $new_chart_version"
 # Replace the current chart version with the new chart version
 sed -i "s/$search/$replace/" $thub_chart_path
+
+echo "About to modify and print the updated $thub_chart_path file..."
+search="name: $application_name.    version: $subchart_version"
+replace="name: $application_name\f    version: $new_subchart_version"
+# Replace the current subchart version with the new subchart version
+# https://unix.stackexchange.com/a/152389
+cat $thub_chart_path | tr '\n' '\f' | sed -e "s/$search/$replace/" | tr '\f' '\n' | tee $thub_chart_path
 
 commit_changes
