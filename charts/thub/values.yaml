@@ -282,7 +282,7 @@ keycloak-config:
   # Public URL for accessing the Keycloak server on the internet
   publicServerUrl: "https://keycloak.hcl-testcloud.com"
   # URL which is only accessible within the k8s cluster
-  internalServerUrl: "http://keycloak-http.keycloak:80"
+  internalServerUrl: "http://keycloakx-http.keycloak:80"
 
 global:
   activemqBrokerConfigMapName: mq-broker-config
