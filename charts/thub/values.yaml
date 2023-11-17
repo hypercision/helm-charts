@@ -306,7 +306,7 @@ global:
       alb.ingress.kubernetes.io/target-type: ip
       # If we want to allow unencrypted access, we can change it to '[{"HTTP": 80}, {"HTTPS": 443}]'
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-      alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+      alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
       alb.ingress.kubernetes.io/healthcheck-path: /healthCheck
       alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
     domain: "hcl-testcloud.com"
