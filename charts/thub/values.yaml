@@ -293,15 +293,12 @@ global:
     enabled: true
     # Default to alb for AWS
     className: "alb"
-    # This can be set to true on clusters running k8s 1.18 or higher.
-    enablePathType: true
     group:
       # Set this to true in order to share an application load balancer
       # across multiple ingress resources using IngressGroups
       enabled: false
       name: ""
     annotations:
-      kubernetes.io/ingress.class: alb
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: ip
       # If we want to allow unencrypted access, we can change it to '[{"HTTP": 80}, {"HTTPS": 443}]'

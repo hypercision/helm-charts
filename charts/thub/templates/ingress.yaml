@@ -1,14 +1,7 @@
 {{- if .Values.global.ingress.enabled -}}
 {{- $fullName := include "thub.fullname" . -}}
 {{- $ojtServiceName := .Values.global.ojt.serviceName -}}
-{{- $useV1Ingress := and (.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") .Values.global.ingress.enablePathType -}}
-{{- if $useV1Ingress -}}
 apiVersion: networking.k8s.io/v1
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
@@ -24,14 +17,13 @@ metadata:
     # Add these tags to the AWS Application Load Balancer
     alb.ingress.kubernetes.io/tags: k8s.namespace/{{ .Release.Namespace }}={{ .Release.Namespace }}
 spec:
-  {{- if and .Values.global.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  {{- if .Values.global.ingress.className }}
   ingressClassName: {{ .Values.global.ingress.className }}
   {{- end }}
   rules:
     - host: {{ include "thub.ojtServerUrl" . | quote }}
       http:
         paths:
-          {{- if $useV1Ingress }}
           - path: /
             pathType: Prefix
             backend:
@@ -39,16 +31,9 @@ spec:
                 name: {{ $ojtServiceName }}
                 port:
                   name: http-grails
-          {{- else }}
-          - path: /*
-            backend:
-              serviceName: {{ $ojtServiceName }}
-              servicePort: http-grails
-          {{- end }}
     - host: {{ include "thub.lmsDataServiceServerUrl" . | quote }}
       http:
         paths:
-          {{- if $useV1Ingress }}
           - path: /
             pathType: Prefix
             backend:
@@ -56,10 +41,4 @@ spec:
                 name: {{ .Values.global.lmsDataService.serviceName }}
                 port:
                   name: http-grails
-          {{- else }}
-          - path: /*
-            backend:
-              serviceName: {{ .Values.global.lmsDataService.serviceName }}
-              servicePort: http-grails
-          {{- end }}
 {{- end }}
