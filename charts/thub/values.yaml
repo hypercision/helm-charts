@@ -73,7 +73,7 @@ autoscaling:
 assigned-item-service:
   resources: {}
   liquibaseResources: {}
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: ""
     password: ""
@@ -106,7 +106,7 @@ assigned-item-service:
 item-service:
   resources: {}
   liquibaseResources: {}
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: ""
     password: ""
@@ -135,7 +135,7 @@ item-service:
 lms-data-service:
   resources: {}
   liquibaseResources: {}
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: ""
     password: ""
@@ -201,7 +201,7 @@ lms-data-service:
 ojt:
   resources: {}
   liquibaseResources: {}
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: ""
     password: ""
@@ -234,7 +234,7 @@ ojt:
 user-service:
   resources: {}
   liquibaseResources: {}
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: ""
     password: ""

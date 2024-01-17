@@ -17,7 +17,7 @@ liquibaseImage:
 nameOverride: ""
 fullnameOverride: ""
 
-# The datasource info for connecting the Grails applciation to the database
+# The datasource info for connecting the Grails application to the database
 dataSource:
   username: ""
   password: ""
