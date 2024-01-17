@@ -9,6 +9,7 @@ data:
   dataSource.username: {{ required "dataSource.username cannot be emtpy" .Values.dataSource.username | quote }}
   dataSource.password: {{ required "dataSource.password cannot be emtpy" .Values.dataSource.password | quote }}
   dataSource.url: {{ .Values.dataSource.url | quote }}
+  dataSource.dialect: {{ required "dataSource.dialect cannot be emtpy" .Values.dataSource.dialect | quote }}
   liquibaseUrl: {{ .Values.liquibaseUrl | quote }}
   dataSource.properties.dbProperties.useUnicode: {{ required "dataSource.dbProperties.useUnicode cannot be emtpy" .Values.dataSource.dbProperties.useUnicode | quote }}
   dataSource.properties.dbProperties.characterEncoding: {{ required "dataSource.dbProperties.characterEncoding cannot be emtpy" .Values.dataSource.dbProperties.characterEncoding | quote }}
