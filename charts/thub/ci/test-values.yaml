@@ -6,21 +6,21 @@ awsS3keyId: "exampleId"
 awsS3secretKey: "verySecretKey"
 
 assigned-item-service:
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: "test_username"
     password: "test_password"
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
 
 item-service:
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: "test_username"
     password: "test_password"
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
 
 lms-data-service:
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: "test_username"
     password: "test_password"
@@ -36,14 +36,14 @@ lms-data-service:
     uploadDirectory: "FEED/UPLOAD"
 
 ojt:
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: "test_username"
     password: "test_password"
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
 
 user-service:
-  # The datasource info for connecting the Grails applciation to the database
+  # The datasource info for connecting the Grails application to the database
   dataSource:
     username: "test_username"
     password: "test_password"
