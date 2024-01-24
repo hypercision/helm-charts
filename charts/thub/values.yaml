@@ -41,6 +41,9 @@ eSignatureMeaningCode: "RECORD"
 ojtAllowedTiles: ""
 # When this is `true`, no tiles appear in the OJT portal other than those specified by `allowedTiles`
 ojtBlockAllTiles: false
+# When this is `true`, the instructor is prompted to enter how many hours the learner spent
+# on the checklist when submitting the OJT.
+ojtRequireTotalHours: true
 # When this is `true`, OJT users will only be able to see the learners and OJTs of learners who belong to the same organization in the LMS as them.
 # This includes users who have a `null` `organizationID`; they can only see learners who also do not belong to an organization.
 # However, if this is `true` and your user has `ROLE_OJT_FULL_ORG_VISIBILITY`, then you can see all the learners and OJTs.

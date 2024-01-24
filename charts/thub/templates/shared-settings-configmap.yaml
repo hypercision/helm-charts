@@ -22,6 +22,7 @@ data:
   hclabs.eSignatureMeaningCode: {{ .Values.eSignatureMeaningCode | quote }}
   hclabs.ojt.allowedTiles: {{ .Values.ojtAllowedTiles | quote }}
   hclabs.ojt.blockAllTiles: {{ .Values.ojtBlockAllTiles | quote }}
+  hclabs.ojt.requireTotalHours: {{ .Values.ojtRequireTotalHours | quote }}
   hclabs.onlySeeOjtsInYourOrganization: {{ .Values.onlySeeOjtsInYourOrganization | quote }}
   hclabs.sfLearningHistoryConnectorTimeZone: {{ .Values.sfLearningHistoryConnectorTimeZone | quote }}
   hclabs.sfLearningHistoryEsUserName: {{ .Values.sfLearningHistoryEsUserName | quote }}
