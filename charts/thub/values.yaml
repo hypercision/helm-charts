@@ -80,7 +80,7 @@ assigned-item-service:
   dataSource:
     username: ""
     password: ""
-    dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
+    dialect: "org.hibernate.dialect.MySQL8Dialect"
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
     dbProperties:
       useUnicode: true
@@ -115,7 +115,7 @@ item-service:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
-    dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
+    dialect: "org.hibernate.dialect.MySQL8Dialect"
     dbProperties:
       useUnicode: true
       characterEncoding: "UTF-8"
@@ -145,7 +145,7 @@ lms-data-service:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
-    dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
+    dialect: "org.hibernate.dialect.MySQL8Dialect"
     dbProperties:
       useUnicode: true
       characterEncoding: "UTF-8"
@@ -212,7 +212,7 @@ ojt:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
-    dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
+    dialect: "org.hibernate.dialect.MySQL8Dialect"
     dbProperties:
       useUnicode: true
       characterEncoding: "UTF-8"
@@ -246,7 +246,7 @@ user-service:
     username: ""
     password: ""
     url: "jdbc:mysql://example.us-east-1.rds.amazonaws.com:3306/schema_name"
-    dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
+    dialect: "org.hibernate.dialect.MySQL8Dialect"
     dbProperties:
       useUnicode: true
       characterEncoding: "UTF-8"
