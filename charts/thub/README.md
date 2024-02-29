@@ -20,10 +20,10 @@ helm uninstall thub
 
 ## Developing the Helm charts
 
-Any change to a chart requires a version bump following [semver](https://semver.org/) principles.
+Any change to a chart requires a version bump following [SemVer](https://semver.org/) principles.
 
 To see what manifest files would be generated and applied when installing one of our helm charts,
-run a command like one of the following in the root directory of the repo:
+run a command like one of the following in the root directory of the repository:
 
 ```console
 helm install --generate-name --dry-run --debug charts/thub -f hclabs-dev.yaml -n hclabs-dev
@@ -35,7 +35,7 @@ helm install --generate-name --dry-run --debug charts/thub/charts/assigned-item-
 
 Note that you will need to supply a values file for most, if not all, of the charts
 since we purposefully do not set default values for things such as passwords and usernames.
-You can use the `hclabs-dev.yaml` file found in the [`thub-deploy` repo](https://github.com/hypercision/thub-deploy#helm-values-files)
+You can use the `hclabs-dev.yaml` file found in the [`thub-deploy` repository](https://github.com/hypercision/thub-deploy#helm-values-files)
 or you could use the [test-values file](/charts/thub/ci/test-values.yaml) we use for testing in our CircleCI pipeline i.e.
 
 ```console

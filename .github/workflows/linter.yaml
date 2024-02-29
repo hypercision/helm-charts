@@ -53,10 +53,12 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Exclude CHANGELOG.md
-          FILTER_REGEX_EXCLUDE: (CHANGELOG.md)
+          # Exclude CHANGELOG.md and other files
+          FILTER_REGEX_EXCLUDE: "(CHANGELOG.md)|(charts/thub/ci/test-values.yaml)"
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_JSCPD: false
+          # Kubeconform fails with helm charts
+          VALIDATE_KUBERNETES_KUBECONFORM: false
           VALIDATE_KUBERNETES_KUBEVAL: false
           VALIDATE_YAML: false
       # Run specific linters and only output warnings. Each linter run here should not be run in the action above.
