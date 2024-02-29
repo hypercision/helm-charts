@@ -38,7 +38,7 @@ jobs:
       # Checkout the code base #
       ##########################
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
@@ -47,21 +47,25 @@ jobs:
       # Run Linter against code base #
       ################################
       - name: Lint Code Base
-        uses: docker://ghcr.io/github/super-linter:slim-v4
+        uses: super-linter/super-linter/slim@v6
         env:
+          LINTER_RULES_PATH: "."
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Exclude CHANGELOG.md
-          FILTER_REGEX_EXCLUDE: (CHANGELOG.md)
+          # Exclude CHANGELOG.md and other files
+          FILTER_REGEX_EXCLUDE: "(CHANGELOG.md)|(charts/thub/ci/test-values.yaml)"
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_JSCPD: false
+          # Kubeconform fails with helm charts
+          VALIDATE_KUBERNETES_KUBECONFORM: false
           VALIDATE_KUBERNETES_KUBEVAL: false
           VALIDATE_YAML: false
       # Run specific linters and only output warnings. Each linter run here should not be run in the action above.
       - name: Lint Code Base for Warnings
-        uses: docker://ghcr.io/github/super-linter:slim-v4
+        uses: super-linter/super-linter/slim@v6
         env:
+          LINTER_RULES_PATH: "."
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
