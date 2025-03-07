@@ -119,6 +119,21 @@ sftp:
   downloadDirectory: "FEED/DOWNLOAD/ROLLCALL"
   uploadDirectory: "FEED/UPLOAD"
 
+# Webservice/API info to integrate with the LMS
+webservice:
+  # Root URL for the LMS webservice
+  url: "https://wd5-impl-services1.workday.com"
+  username: ""
+  password: ""
+  # The Workday tenant name i.e. "calwatergroup1" or SuccessFactors companyID
+  systemId: "calwatergroup1"
+
+# Workday configuration
+workday:
+  apiReadTimeoutMinutes: 17
+  # Specify API version here to override the default defined by the LMS Data Service application.yml
+  apiVersion: ""
+
 assignedItemsSchedulerJob:
   enabled: true
   # Run on the 15th minute of every hour from 14 thru 23 and 5

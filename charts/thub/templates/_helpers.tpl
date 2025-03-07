@@ -79,7 +79,9 @@ Create the name of the LMS Data Service job queue
 Create the OJT Server URL / Ingress path
 */}}
 {{- define "thub.ojtServerUrl" -}}
-{{- if .Values.global.ingress.enabled -}}
+{{- if and .Values.global.ingress.enabled .Values.global.ingress.ojtUrlPrefix -}}
+{{ print .Values.global.ingress.ojtUrlPrefix "." .Values.global.ingress.domain }}
+{{- else if .Values.global.ingress.enabled -}}
 {{ print "ojt-" .Release.Namespace "." .Values.global.ingress.domain }}
 {{- end }}
 {{- end }}
@@ -120,12 +122,14 @@ Create the contents of the Grails JMS properties file configmap
 jms.destinations.assignedItemQueue={{ .Release.Namespace }}-assignedItemQueue
 jms.destinations.assignedItemOjtCreationQueue={{ .Release.Namespace }}-assignedItemOjtCreationQueue
 jms.destinations.assignedItemOjtCreationResultsQueue={{ .Release.Namespace }}-assignedItemOjtCreationResultsQueue
+jms.destinations.attendeeRegistrationQueue={{ .Release.Namespace }}-attendeeRegistrationQueue
 jms.destinations.completionStatusQueue={{ .Release.Namespace }}-completionStatusQueue
 jms.destinations.instructorQueue={{ .Release.Namespace }}-instructorQueue
 jms.destinations.itemQueue={{ .Release.Namespace }}-itemQueue
 jms.destinations.learnerQueue={{ .Release.Namespace }}-learnerQueue
 jms.destinations.ojtJobQueue={{ include "thub.ojtJobQueueName" . }}
 jms.destinations.sfLmsDataJobQueue={{ include "thub.sfLmsDataJobQueueName" . }}
+jms.destinations.scheduledOfferingQueue={{ .Release.Namespace }}-scheduledOfferingQueue
 {{- end }}
 
 {{/*

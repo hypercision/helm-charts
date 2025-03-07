@@ -175,6 +175,19 @@ lms-data-service:
     password: ""
     downloadDirectory: "FEED/DOWNLOAD/ROLLCALL"
     uploadDirectory: "FEED/UPLOAD"
+  # Webservice/API info to integrate with the LMS
+  webservice:
+    # Root URL for the LMS webservice
+    url: "https://wd5-impl-services1.workday.com"
+    username: ""
+    password: ""
+    # The Workday tenant name i.e. "calwatergroup1" or SuccessFactors companyID
+    systemId: "calwatergroup1"
+  # Workday configuration
+  workday:
+    apiReadTimeoutMinutes: 17
+    # Specify API version here to override the default defined by the LMS Data Service application.yml
+    apiVersion: ""
   assignedItemsSchedulerJob:
     enabled: true
     # Run on the 15th minute of every hour from 14 thru 23 and 5
@@ -297,6 +310,8 @@ global:
   awsS3AccessConfigMapName: aws-s3-access-config
   jmsPropertiesConfigMapName: jms-properties-grails-app-config
   sharedSettingsConfigMapName: shared-settings-config
+  # LMS type that we are integrating with. "SFLMS" or "WORKDAY"
+  lmsType: "SFLMS"
   ingress:
     enabled: true
     # Default to alb for AWS
@@ -315,6 +330,8 @@ global:
       alb.ingress.kubernetes.io/healthcheck-path: /healthCheck
       alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
     domain: "hcl-testcloud.com"
+    # Prefix for OJT Server URL / Ingress path. Defaults to "ojt-<namespace>"
+    ojtUrlPrefix: ""
   # Resources for the thub-event-scheduler-job container
   eventSchedulerResources:
     requests:

@@ -1,0 +1,13 @@
+# This will have different values for each client/namespace.
+# This contains Environment Variables that need to be set when integrating with Workday.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lms-data-service.workdayConfigmapName" . }}
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+data:
+  workday.api.readTimeoutMinutes: {{ .Values.workday.apiReadTimeoutMinutes | quote }}
+  {{- if .Values.workday.apiVersion }}
+  workday.api.version: {{ .Values.workday.apiVersion | quote }}
+  {{- end }}
