@@ -41,7 +41,7 @@ jobs:
 
   install-charts:
     machine:
-      image: ubuntu-1604:202007-01
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run:
@@ -49,7 +49,8 @@ jobs:
           command: .circleci/install_charts.sh
 
   release-charts:
-    machine: true
+    machine:
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run:
@@ -60,7 +61,8 @@ jobs:
             .circleci/release.sh
 
   update-app-version-of-chart:
-    machine: true
+    machine:
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run:
