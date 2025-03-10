@@ -84,6 +84,8 @@ spec:
               name: {{ .Values.global.activemqBrokerConfigMapName }}
           - configMapRef:
               name: {{ .Values.global.sharedSettingsConfigMapName }}
+          - configMapRef:
+              name: {{ include "ojt.ojtConfigmapName" . }}
           # The keycloak ConfigMaps are defined in the keycloak-config chart
           - configMapRef:
               name: keycloak-shared-config

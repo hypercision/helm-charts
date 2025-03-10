@@ -1,0 +1,15 @@
+# This will have different values for each client/namespace
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ojt.ojtConfigmapName" . }}
+  labels:
+    {{- include "ojt.labels" . | nindent 4 }}
+  annotations:
+    description: >
+      Contains configuration settings specifically for the OJT Grails application,
+      which will be supplied to the OJT Grails application as environment variables.
+data:
+  {{- if .Values.mail.password }}
+  grails.mail.password: {{ .Values.mail.password | quote }}
+  {{- end }}

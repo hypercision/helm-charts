@@ -109,6 +109,10 @@ tolerations: []
 
 affinity: {}
 
+mail:
+  # "App password" for OJT application to send email from the ojt@hc-labs.com account
+  password: ""
+
 learningHistorySchedulerJob:
   enabled: true
   # Run every 30 minutes
