@@ -69,6 +69,13 @@ Create the name of the Grails datasource configmap
 {{- end }}
 
 {{/*
+Create the name of the OJT application settings configmap
+*/}}
+{{- define "ojt.ojtConfigmapName" -}}
+{{ include "ojt.name" . }}-ojt-app-settings-config
+{{- end }}
+
+{{/*
 Create the name of the CronJob learning-history-scheduler-job
 */}}
 {{- define "ojt.learningHistorySchedulerJobName" -}}
