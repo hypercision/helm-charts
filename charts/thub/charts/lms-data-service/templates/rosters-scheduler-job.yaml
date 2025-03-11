@@ -1,0 +1,71 @@
+{{- if .Values.rostersSchedulerJob.enabled -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "lms-data-service.rostersSchedulerJobName" . }}
+  # These labels do not also get added to the pods created by this job
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+    jobCommonName: lms-rosters-scheduler-job
+  annotations:
+    description: >
+      Sends a message to the LMS Data Service application via ActiveMQ notifying it to
+      load rosters (aka Learning Enrollments) from the LMS.
+spec:
+  schedule: {{ .Values.rostersSchedulerJob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.rostersSchedulerJob.concurrencyPolicy | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            {{- with .Values.rostersSchedulerJob.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          labels:
+            {{- with .Values.rostersSchedulerJob.podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        spec:
+          containers:
+          - name: thub-event-scheduler-job
+            image: "{{ .Values.rostersSchedulerJob.image.repository }}:{{ .Values.rostersSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
+            imagePullPolicy: {{ .Values.rostersSchedulerJob.image.pullPolicy }}
+            command: ["java", "-jar", "/home/app/application.jar", "jms", "{{ include "lms-data-service.rostersSchedulerJobInputFile" . }}"]
+            ports:
+            - containerPort: {{ .Values.rostersSchedulerJob.port }}
+              name: http-server
+            resources:
+              {{- toYaml .Values.global.eventSchedulerResources | nindent 14 }}
+            env:
+            - name: server.port
+              value: {{ .Values.rostersSchedulerJob.port | quote }}
+            - name: hclabs.scheduler.destinationQueue
+              value: {{ include "thub.sfLmsDataJobQueueName" . }}
+            - name: micronaut.jms.activemq.classic.connection-string
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.brokerUrl
+            - name: micronaut.jms.activemq.classic.username
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.user
+            - name: micronaut.jms.activemq.classic.password
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.password
+            volumeMounts:
+            - name: message-file
+              mountPath: /home/app/temp
+              readOnly: true
+          volumes:
+            - name: message-file
+              configMap:
+                # Provide the name of the ConfigMap containing the files you want
+                # to add to the container
+                name: {{ include "lms-data-service.eventSchedulerInputFilesConfigmapName" . }}
+          restartPolicy: {{ .Values.rostersSchedulerJob.restartPolicy }}
+{{- end }}
