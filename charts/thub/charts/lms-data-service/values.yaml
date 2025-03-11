@@ -139,6 +139,8 @@ assignedItemsSchedulerJob:
   # Run on the 15th minute of every hour from 14 thru 23 and 5
   schedule: "15 14-23,5 * * *"
   concurrencyPolicy: "Replace"
+  # Overrides the default JSON file used by the job
+  jsonInputFile: ""
   image:
     repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
@@ -169,6 +171,8 @@ instructorsSchedulerJob:
   # Run at 2:30 AM every day
   schedule: "30 2 * * *"
   concurrencyPolicy: "Replace"
+  # Overrides the default JSON file used by the job
+  jsonInputFile: ""
   image:
     repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
@@ -184,6 +188,8 @@ itemsSchedulerJob:
   # Run on the 4th minute of every 4th hour
   schedule: "4 */4 * * *"
   concurrencyPolicy: "Replace"
+  # Overrides the default JSON file used by the job
+  jsonInputFile: ""
   image:
     repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
@@ -199,6 +205,8 @@ itemsInactiveSchedulerJob:
   # Run on the 50th minute of every 12th hour
   schedule: "50 */12 * * *"
   concurrencyPolicy: "Replace"
+  # Overrides the default JSON file used by the job
+  jsonInputFile: ""
   image:
     repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
@@ -214,6 +222,8 @@ learnersSchedulerJob:
   # Run on the eigth minute of every 3rd hour
   schedule: "8 */3 * * *"
   concurrencyPolicy: "Replace"
+  # Overrides the default JSON file used by the job
+  jsonInputFile: ""
   image:
     repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent
@@ -229,6 +239,8 @@ learningHistoryUploadJob:
   # Run every 33 minutes
   schedule: "*/33 * * * *"
   concurrencyPolicy: "Replace"
+  # Overrides the default JSON file used by the job
+  jsonInputFile: ""
   image:
     repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
     pullPolicy: IfNotPresent

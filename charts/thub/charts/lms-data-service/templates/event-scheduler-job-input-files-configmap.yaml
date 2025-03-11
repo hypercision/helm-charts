@@ -49,6 +49,31 @@ data:
         "instruction": "START",
         "communicationType": "SFTP"
     }
+  # These jobs are used when integrating with Workday LMS
+  start-instructors-web-job.json: |
+    {
+        "type": "INSTRUCTORS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
+  start-items-web-job.json: |
+    {
+        "type": "ITEMS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
+  start-items-inactive-web-job.json: |
+    {
+        "type": "ITEMS_INACTIVE",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
+  start-learners-web-job.json: |
+    {
+        "type": "LEARNERS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
 
 {{/*
 Could use this code if we want to load them from files rather than have them here.
