@@ -4,4 +4,6 @@
 helm-extra-args: '--timeout 600s'
 chart-repos:
   - bitnami=https://charts.bitnami.com/bitnami
+  - hypercision=https://hypercision.github.io/helm-charts
+target-branch: 'master'
 validate-maintainers: false

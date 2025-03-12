@@ -70,6 +70,7 @@ find_latest_tag() {
 
 add_chart_repos() {
     helm repo add bitnami https://charts.bitnami.com/bitnami
+    helm repo add hypercision https://hypercision.github.io/helm-charts
 }
 
 package_chart() {
