@@ -111,6 +111,17 @@ Create the name of the CronJob assigned-items-scheduler-job
 {{- end }}
 
 {{/*
+Create the name of the JSON file used by the assigned-items-scheduler-job
+*/}}
+{{- define "lms-data-service.assignedItemsSchedulerJobInputFile" -}}
+{{- if .Values.assignedItemsSchedulerJob.jsonInputFile -}}
+{{ print .Values.assignedItemsSchedulerJob.jsonInputFile }}
+{{- else -}}
+{{ print "./temp/start-assigned-items-job.json" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create the name of the CronJob lms-end-incomplete-jobs-scheduler-job
 */}}
 {{- define "lms-data-service.endIncompleteJobsSchedulerJobName" -}}
@@ -125,10 +136,36 @@ Create the name of the CronJob instructors-scheduler-job
 {{- end }}
 
 {{/*
+Create the name of the JSON file used by the instructors-scheduler-job
+*/}}
+{{- define "lms-data-service.instructorsSchedulerJobInputFile" -}}
+{{- if .Values.instructorsSchedulerJob.jsonInputFile -}}
+{{ print .Values.instructorsSchedulerJob.jsonInputFile }}
+{{- else if eq .Values.global.lmsType "WORKDAY" -}}
+{{ print "./temp/start-instructors-web-job.json" }}
+{{- else -}}
+{{ print "./temp/start-instructors-job.json" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create the name of the CronJob items-scheduler-job
 */}}
 {{- define "lms-data-service.itemsSchedulerJobName" -}}
 {{ include "lms-data-service.name" . }}-items-scheduler-job
+{{- end }}
+
+{{/*
+Create the name of the JSON file used by the items-scheduler-job
+*/}}
+{{- define "lms-data-service.itemsSchedulerJobInputFile" -}}
+{{- if .Values.itemsSchedulerJob.jsonInputFile -}}
+{{ print .Values.itemsSchedulerJob.jsonInputFile }}
+{{- else if eq .Values.global.lmsType "WORKDAY" -}}
+{{ print "./temp/start-items-web-job.json" }}
+{{- else -}}
+{{ print "./temp/start-items-job.json" }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -139,8 +176,45 @@ Create the name of the CronJob items-inactive-scheduler-job
 {{- end }}
 
 {{/*
+Create the name of the JSON file used by the items-inactive-scheduler-job
+*/}}
+{{- define "lms-data-service.itemsInactiveSchedulerJobInputFile" -}}
+{{- if .Values.itemsInactiveSchedulerJob.jsonInputFile -}}
+{{ print .Values.itemsInactiveSchedulerJob.jsonInputFile }}
+{{- else if eq .Values.global.lmsType "WORKDAY" -}}
+{{ print "./temp/start-items-inactive-web-job.json" }}
+{{- else -}}
+{{ print "./temp/start-items-inactive-job.json" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create the name of the CronJob learners-scheduler-job
 */}}
 {{- define "lms-data-service.learnersSchedulerJobName" -}}
 {{ include "lms-data-service.name" . }}-learners-scheduler-job
+{{- end }}
+
+{{/*
+Create the name of the JSON file used by the learners-scheduler-job
+*/}}
+{{- define "lms-data-service.learnersSchedulerJobInputFile" -}}
+{{- if .Values.learnersSchedulerJob.jsonInputFile -}}
+{{ print .Values.learnersSchedulerJob.jsonInputFile }}
+{{- else if eq .Values.global.lmsType "WORKDAY" -}}
+{{ print "./temp/start-learners-web-job.json" }}
+{{- else -}}
+{{ print "./temp/start-learners-job.json" }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create the name of the JSON file used by the learning-history-upload-job
+*/}}
+{{- define "lms-data-service.learningHistoryUploadJobInputFile" -}}
+{{- if .Values.learningHistoryUploadJob.jsonInputFile -}}
+{{ print .Values.learningHistoryUploadJob.jsonInputFile }}
+{{- else -}}
+{{ print "./temp/start-lms-learning-history-job.json" }}
+{{- end }}
 {{- end }}

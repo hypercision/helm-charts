@@ -8,15 +8,14 @@ metadata:
     description: >
       This ConfigMap contains files used by thub-event-scheduler-job.
 data:
+  lms-end-incomplete-jobs.json: |
+    {
+        "type": "END_INCOMPLETE_DATA_SYNCS",
+        "instruction": "START"
+    }
   start-assigned-items-job.json: |
     {
         "type": "ASSIGNED_ITEMS",
-        "instruction": "START",
-        "communicationType": "SFTP"
-    }
-  start-lms-learning-history-job.json: |
-    {
-        "type": "LEARNING_HISTORY",
         "instruction": "START",
         "communicationType": "SFTP"
     }
@@ -44,10 +43,36 @@ data:
         "instruction": "START",
         "communicationType": "SFTP"
     }
-  lms-end-incomplete-jobs.json: |
+  start-lms-learning-history-job.json: |
     {
-      "type": "END_INCOMPLETE_DATA_SYNCS",
-      "instruction": "START"
+        "type": "LEARNING_HISTORY",
+        "instruction": "START",
+        "communicationType": "SFTP"
+    }
+  # These jobs are used when integrating with Workday LMS
+  start-instructors-web-job.json: |
+    {
+        "type": "INSTRUCTORS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
+  start-items-web-job.json: |
+    {
+        "type": "ITEMS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
+  start-items-inactive-web-job.json: |
+    {
+        "type": "ITEMS_INACTIVE",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
+  start-learners-web-job.json: |
+    {
+        "type": "LEARNERS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
     }
 
 {{/*

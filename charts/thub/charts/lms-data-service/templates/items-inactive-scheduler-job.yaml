@@ -31,7 +31,7 @@ spec:
           - name: thub-event-scheduler-job
             image: "{{ .Values.itemsInactiveSchedulerJob.image.repository }}:{{ .Values.itemsInactiveSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
             imagePullPolicy: {{ .Values.itemsInactiveSchedulerJob.image.pullPolicy }}
-            command: ["java", "-jar", "/home/app/application.jar", "jms", "./temp/start-items-inactive-job.json"]
+            command: ["java", "-jar", "/home/app/application.jar", "jms", "{{ include "lms-data-service.itemsInactiveSchedulerJobInputFile" . }}"]
             ports:
             - containerPort: {{ .Values.itemsInactiveSchedulerJob.port }}
               name: http-server
