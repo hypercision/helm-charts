@@ -67,6 +67,7 @@ jobs:
           VALIDATE_KUBERNETES_KUBECONFORM: false
           VALIDATE_KUBERNETES_KUBEVAL: false
           VALIDATE_YAML: false
+          VALIDATE_YAML_PRETTIER: false
       # Run specific linters and only output warnings. Each linter run here should not be run in the action above.
       - name: Lint Code Base for Warnings
         uses: super-linter/super-linter/slim@v7

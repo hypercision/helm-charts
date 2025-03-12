@@ -11,3 +11,4 @@ venv
 
 */test_trigger.sh
 test.sh
+output*.txt
