@@ -74,6 +74,12 @@ data:
         "instruction": "START",
         "communicationType": "WEBSERVICE"
     }
+  start-rosters-web-job.json: |
+    {
+        "type": "ROSTERS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
 
 {{/*
 Could use this code if we want to load them from files rather than have them here.

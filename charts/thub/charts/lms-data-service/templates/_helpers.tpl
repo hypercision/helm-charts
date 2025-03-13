@@ -218,3 +218,22 @@ Create the name of the JSON file used by the learning-history-upload-job
 {{ print "./temp/start-lms-learning-history-job.json" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the name of the CronJob rosters-scheduler-job
+*/}}
+{{- define "lms-data-service.rostersSchedulerJobName" -}}
+{{ include "lms-data-service.name" . }}-rosters-scheduler-job
+{{- end }}
+
+{{/*
+Create the name of the JSON file used by the rosters-scheduler-job
+This job is currently used only when integrating with Workday
+*/}}
+{{- define "lms-data-service.rostersSchedulerJobInputFile" -}}
+{{- if .Values.rostersSchedulerJob.jsonInputFile -}}
+{{ print .Values.rostersSchedulerJob.jsonInputFile }}
+{{- else -}}
+{{ print "./temp/start-rosters-web-job.json" }}
+{{- end }}
+{{- end }}
