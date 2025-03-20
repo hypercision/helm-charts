@@ -107,3 +107,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+mail:
+    # "App password" for User Service application to send email from the ojt@hc-labs.com account
+    password: ""

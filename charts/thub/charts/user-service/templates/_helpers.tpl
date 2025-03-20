@@ -67,3 +67,10 @@ Create the name of the Grails datasource configmap
 {{- define "user-service.datasourceConfigmapName" -}}
 {{ include "user-service.name" . }}-datasource-config
 {{- end }}
+
+{{/*
+Create the name of the User Service application settings configmap
+*/}}
+{{- define "user-service.userServiceConfigmapName" -}}
+{{ include "user-service.name" . }}-user-service-settings-config
+{{- end }}

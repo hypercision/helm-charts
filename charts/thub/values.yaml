@@ -283,6 +283,9 @@ user-service:
       port: http
     initialDelaySeconds: 40
     timeoutSeconds: 3
+  mail:
+    # "App password" for User Service application to send email from the ojt@hc-labs.com account
+    password: ""
 
 keycloak-config:
   # Whether or not to create the realm ConfigMap
