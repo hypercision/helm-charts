@@ -48,6 +48,9 @@ ojtRequireTotalHours: true
 # This includes users who have a `null` `organizationID`; they can only see learners who also do not belong to an organization.
 # However, if this is `true` and your user has `ROLE_OJT_FULL_ORG_VISIBILITY`, then you can see all the learners and OJTs.
 onlySeeOjtsInYourOrganization: false
+# Specify role here to override the default defined by the OJT application.yml
+# In order for a Learner/User to be an approver for an OJT or OJTCourse, they need to have this specified role.
+roleNeededForApprover: ""
 # The timezone that SuccessFactors expects date and time values to be in the learning history connector input file.
 # It is in a format that can be used by `java.util.TimeZone.getTimeZone()`. This value can be different for each client.
 sfLearningHistoryConnectorTimeZone: "GMT"
