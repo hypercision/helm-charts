@@ -25,6 +25,9 @@ data:
   hclabs.ojt.blockAllTiles: {{ .Values.ojtBlockAllTiles | quote }}
   hclabs.ojt.requireTotalHours: {{ .Values.ojtRequireTotalHours | quote }}
   hclabs.onlySeeOjtsInYourOrganization: {{ .Values.onlySeeOjtsInYourOrganization | quote }}
+  {{- if .Values.roleNeededForApprover}}
+  hclabs.roleNeededForApprover: {{ .Values.roleNeededForApprover | quote }}
+  {{- end }}
   hclabs.sfLearningHistoryConnectorTimeZone: {{ .Values.sfLearningHistoryConnectorTimeZone | quote }}
   hclabs.sfLearningHistoryEsUserName: {{ .Values.sfLearningHistoryEsUserName | quote }}
   hclabs.sfLearningHistoryLastUpdatedUser: {{ .Values.sfLearningHistoryLastUpdatedUser | quote }}
