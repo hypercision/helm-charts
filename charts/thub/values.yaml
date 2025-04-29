@@ -20,6 +20,10 @@ awsS3LearningHistoryBucketName: "hclabs-dev-traininghub-learning-history"
 createOjtsFromAssignedItems: true
 # Link to a Google Sheet that explains how often each Data Sync job runs.
 dataSyncScheduleLink: ""
+# Specify here to override the default defined by the OJT and LMS Data Service application.yml
+# The default number of days added to an OJT's start date to determine the
+# end date of its corresponding Course Offering in Workday.
+defaultLengthOfOjtInDays: ""
 # The `StepType` to use by default when adding another step to an OJT Course
 defaultOjtStepType: "COMPLETE_INCOMPLETE"
 # Item types that should be loaded in by the LMS Data Service.
@@ -51,6 +55,9 @@ onlySeeOjtsInYourOrganization: false
 # Specify role here to override the default defined by the OJT application.yml
 # In order for a Learner/User to be an approver for an OJT or OJTCourse, they need to have this specified role.
 roleNeededForApprover: ""
+# When this is true, `CreateCourseOfferingMessage` objects are sent from OJT to the LMS Data Service
+# to create or update a Course Offering and Learning Enrollment in Workday which correspond to an OJT.
+sendCreateCourseOfferingMessages: true
 # The timezone that SuccessFactors expects date and time values to be in the learning history connector input file.
 # It is in a format that can be used by `java.util.TimeZone.getTimeZone()`. This value can be different for each client.
 sfLearningHistoryConnectorTimeZone: "GMT"

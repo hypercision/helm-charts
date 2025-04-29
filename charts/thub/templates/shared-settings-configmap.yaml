@@ -13,6 +13,9 @@ data:
   hclabs.awsS3LearningHistoryBucketName: {{ .Values.awsS3LearningHistoryBucketName | quote }}
   hclabs.createOjtsFromAssignedItems: {{ .Values.createOjtsFromAssignedItems | quote }}
   hclabs.dataSyncScheduleLink: {{ .Values.dataSyncScheduleLink | quote }}
+  {{- if .Values.defaultLengthOfOjtInDays}}
+  hclabs.defaultLengthOfOjtInDays: {{ .Values.defaultLengthOfOjtInDays | quote }}
+  {{- end }}
   hclabs.defaultOjtStepType: {{ .Values.defaultOjtStepType | quote }}
   hclabs.desiredItemTypes: {{ .Values.desiredItemTypes | quote }}
   hclabs.enableAssessmentType: {{ .Values.enableAssessmentType | quote }}
@@ -28,6 +31,7 @@ data:
   {{- if .Values.roleNeededForApprover}}
   hclabs.roleNeededForApprover: {{ .Values.roleNeededForApprover | quote }}
   {{- end }}
+  hclabs.sendCreateCourseOfferingMessages: {{ .Values.sendCreateCourseOfferingMessages | quote }}
   hclabs.sfLearningHistoryConnectorTimeZone: {{ .Values.sfLearningHistoryConnectorTimeZone | quote }}
   hclabs.sfLearningHistoryEsUserName: {{ .Values.sfLearningHistoryEsUserName | quote }}
   hclabs.sfLearningHistoryLastUpdatedUser: {{ .Values.sfLearningHistoryLastUpdatedUser | quote }}
