@@ -60,7 +60,9 @@ keycloak-config:
   clientSecret: "abcdefg"
   # Credentials for the admin of the Keycloak server (master realm)
   masterAdminUsername: "test-admin"
+  # checkov:skip=CKV_SECRET_6:This entire file is just test values
   masterAdminPassword: "examplePassword"
   # Credentials for an admin of this realm
   realmAdminUsername: "realm-admin-username"
+  # checkov:skip=CKV_SECRET_6:This entire file is just test values
   realmAdminPassword: "anotherPassword"
