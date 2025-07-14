@@ -1,0 +1,39 @@
+apiVersion: v2
+name: thub
+description: A Helm chart for OJT and Traininghub (thub) microservices
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 1.8.2
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+appVersion: 2.1.0
+
+home: https://hypercision.github.io/helm-charts
+
+dependencies:
+  - name: assigned-item-service
+    version: 1.4.0
+  - name: item-service
+    version: 1.3.1
+  - name: keycloak-config
+    version: 0.1.1
+  - name: lms-data-service
+    version: 1.6.1
+  - name: ojt
+    version: 1.5.0
+  - name: user-service
+    version: 1.3.5
+
+sources:
+  - https://github.com/hypercision/masterdata-services
+  - https://github.com/hypercision/traininghub
+  - https://github.com/hypercision/item-service
+  - https://github.com/hypercision/sflms-data-service
+  - https://github.com/hypercision/thub-event-scheduler-job
+  - https://github.com/hypercision/thub-assigned-item-service
+  - https://github.com/hypercision/user-service
