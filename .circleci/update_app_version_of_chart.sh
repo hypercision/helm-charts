@@ -78,10 +78,35 @@ replace="version: $new_chart_version"
 sed -i "s/$search/$replace/" $thub_chart_path
 
 echo "About to modify and print the updated $thub_chart_path file..."
-search="name: $application_name.    version: $subchart_version"
-replace="name: $application_name\f    version: $new_subchart_version"
-# Replace the current subchart version with the new subchart version
-# https://unix.stackexchange.com/a/152389
-cat $thub_chart_path | tr '\n' '\f' | sed -e "s/$search/$replace/" | tr '\f' '\n' | tee $thub_chart_path
+# Create a temporary file for safe editing
+temp_file=$(mktemp)
+# This searches for the specific subchart entry and updates its version
+awk -v app_name="$application_name" -v old_version="$subchart_version" -v new_version="$new_subchart_version" '
+BEGIN { in_dependencies = 0; found_chart = 0 }
+/^dependencies:/ { in_dependencies = 1 }
+/^[a-zA-Z]/ && !/^dependencies:/ && !/^  / { in_dependencies = 0 }
+in_dependencies && /^  - name:/ {
+    if ($3 == app_name) {
+        found_chart = 1
+        print $0
+        next
+    }
+    found_chart = 0
+}
+in_dependencies && found_chart && /^    version:/ {
+    if ($2 == old_version) {
+        print "    version: " new_version
+        found_chart = 0
+        next
+    }
+}
+{ print }
+' "$thub_chart_path" >"$temp_file"
+
+# Replace the original file with the modified version
+mv "$temp_file" "$thub_chart_path"
+
+echo "Updated $thub_chart_path file contents:"
+cat "$thub_chart_path"
 
 commit_changes
