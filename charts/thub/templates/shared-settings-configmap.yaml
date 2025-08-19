@@ -22,6 +22,8 @@ data:
   hclabs.enableOjtLearnerComments: {{ .Values.enableOjtLearnerComments | quote }}
   hclabs.enableOjtObserverComments: {{ .Values.enableOjtObserverComments | quote }}
   hclabs.enableSelfAssessmentRatings: {{ .Values.enableSelfAssessmentRatings | quote }}
+  hclabs.environmentIsProduction: {{ .Values.environmentIsProduction | quote }}
+  hclabs.envName: {{ .Values.envName | quote }}
   hclabs.eSignatureMeaningCode: {{ .Values.eSignatureMeaningCode | quote }}
   hclabs.lmsType: {{ .Values.global.lmsType | quote }}
   hclabs.ojt.allowedTiles: {{ .Values.ojtAllowedTiles | quote }}

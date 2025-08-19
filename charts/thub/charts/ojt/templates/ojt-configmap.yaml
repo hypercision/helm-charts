@@ -18,3 +18,4 @@ data:
   {{- if .Values.mail.password }}
   grails.mail.password: {{ .Values.mail.password | quote }}
   {{- end }}
+  hclabs.ojt.loginUsingSso: {{ .Values.loginUsingSso | quote }}

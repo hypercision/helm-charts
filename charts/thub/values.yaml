@@ -37,6 +37,10 @@ enableOjtLearnerComments: false
 enableOjtObserverComments: false
 # Allow learners to give themselves a SelfAssessmentRating on steps in their own OJTs.
 enableSelfAssessmentRatings: true
+# Boolean indicating if the environment is production.
+environmentIsProduction: true
+# A human readable description of the environment, such as "Coca Cola Staging" or "Coca Cola Production"
+envName: "HCLabs Development"
 # This value is used to populate the ESIG_MEANING_CODE_ID field in lines of the SuccessFactors learning history file
 # for which the completion status requires an eSignature.
 eSignatureMeaningCode: "RECORD"
@@ -325,6 +329,8 @@ keycloak-config:
   realmName: ""
   clientId: "ojt"
   clientSecret: ""
+  # The desired scopes when requesting an access token. This is a space seperated list.
+  scopes: "email profile"
   # Credentials for the admin of the Keycloak server (master realm)
   masterAdminUsername: ""
   masterAdminPassword: ""

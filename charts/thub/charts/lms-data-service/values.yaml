@@ -112,6 +112,10 @@ affinity: {}
 # For example, custom.property.one: "value1"
 additionalConfig: {}
 
+# Boolean that when true, users will login to LMS Data Service using a SSO authentication provider
+# with a redirect URL rather than entering their their credentials on the LMS Data Service web app login page.
+loginUsingSso: true
+
 # Encryption key for storing sensitive values in the database
 encryptionPassword: ""
 
