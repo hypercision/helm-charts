@@ -62,6 +62,13 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Create the name of the Assigned Item Service application settings configmap
+*/}}
+{{- define "assigned-item-service.assignedItemServiceConfigmapName" -}}
+{{ include "assigned-item-service.name" . }}-application-config
+{{- end }}
+
+{{/*
 Create the name of the Grails datasource configmap
 */}}
 {{- define "assigned-item-service.datasourceConfigmapName" -}}

@@ -10,6 +10,11 @@ metadata:
       Contains configuration settings specifically for the OJT Grails application,
       which will be supplied to the OJT Grails application as environment variables.
 data:
+  {{- if .Values.additionalConfig }}
+  {{- range $key, $value := .Values.additionalConfig }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
   {{- if .Values.mail.password }}
   grails.mail.password: {{ .Values.mail.password | quote }}
   {{- end }}

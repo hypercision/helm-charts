@@ -108,6 +108,10 @@ tolerations: []
 
 affinity: {}
 
+# Any additional environment variables to be set in the LMS Data Service container.
+# For example, custom.property.one: "value1"
+additionalConfig: {}
+
 # Encryption key for storing sensitive values in the database
 encryptionPassword: ""
 

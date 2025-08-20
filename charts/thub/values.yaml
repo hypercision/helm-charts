@@ -112,6 +112,9 @@ assigned-item-service:
       port: http
     initialDelaySeconds: 40
     timeoutSeconds: 3
+  # Any additional environment variables to be set in the assigned-item-service container.
+  # For example, custom.property.one: "value1"
+  additionalConfig: {}
   resubmitOjtsSchedulerJob:
     enabled: true
     # Run on the fourth minute of every 6th hour
@@ -146,6 +149,9 @@ item-service:
       port: http
     initialDelaySeconds: 30
     timeoutSeconds: 3
+  # Any additional environment variables to be set in the Item Service container.
+  # For example, custom.property.one: "value1"
+  additionalConfig: {}
 
 lms-data-service:
   resources: {}
@@ -176,6 +182,9 @@ lms-data-service:
       port: http
     initialDelaySeconds: 30
     timeoutSeconds: 3
+  # Any additional environment variables to be set in the LMS Data Service container.
+  # For example, custom.property.one: "value1"
+  additionalConfig: {}
   # Encryption key for storing sensitive values in the database
   encryptionPassword: ""
   # Connection info for the SFTP that the LMS interacts with
@@ -256,6 +265,9 @@ ojt:
       port: http
     initialDelaySeconds: 40
     timeoutSeconds: 3
+  # Any additional environment variables to be set in the OJT container.
+  # For example, custom.property.one: "value1"
+  additionalConfig: {}
   mail:
     # "App password" for OJT application to send email from the ojt@hc-labs.com account
     password: ""
@@ -293,6 +305,9 @@ user-service:
       port: http
     initialDelaySeconds: 40
     timeoutSeconds: 3
+  # Any additional environment variables to be set in the User Service container.
+  # For example, custom.property.one: "value1"
+  additionalConfig: {}
   mail:
     # "App password" for User Service application to send email from the ojt@hc-labs.com account
     password: ""

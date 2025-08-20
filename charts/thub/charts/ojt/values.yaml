@@ -113,6 +113,10 @@ mail:
   # "App password" for OJT application to send email from the ojt@hc-labs.com account
   password: ""
 
+# Any additional environment variables to be set in the OJT container.
+# For example, custom.property.one: "value1"
+additionalConfig: {}
+
 learningHistorySchedulerJob:
   enabled: true
   # Run every 30 minutes

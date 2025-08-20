@@ -89,6 +89,8 @@ spec:
           - configMapRef:
               name: {{ include "lms-data-service.workdayConfigmapName" . }}
           {{- end }}
+          - configMapRef:
+              name: {{ include "lms-data-service.lmsDataServiceConfigmapName" . }}
           # The keycloak ConfigMaps are defined in the keycloak-config chart
           - configMapRef:
               name: keycloak-shared-config

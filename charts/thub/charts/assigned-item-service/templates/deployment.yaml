@@ -61,6 +61,8 @@ spec:
               name: {{ .Values.global.activemqBrokerConfigMapName }}
           - configMapRef:
               name: {{ .Values.global.sharedSettingsConfigMapName }}
+          - configMapRef:
+              name: {{ include "assigned-item-service.assignedItemServiceConfigmapName" . }}
           volumeMounts:
           - name: application-config
             mountPath: /home/app/config

@@ -1,0 +1,17 @@
+# This will have different values for each client/namespace
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "item-service.itemServiceConfigmapName" . }}
+  labels:
+    {{- include "item-service.labels" . | nindent 4 }}
+  annotations:
+    description: >
+      Contains configuration settings specifically for the Item Service Grails application,
+      which will be supplied to the Item Service Grails application as environment variables.
+data:
+  {{- if .Values.additionalConfig }}
+  {{- range $key, $value := .Values.additionalConfig }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
