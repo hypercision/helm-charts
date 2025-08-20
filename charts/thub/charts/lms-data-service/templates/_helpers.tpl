@@ -76,6 +76,13 @@ Create the name of the encryption configmap
 {{- end }}
 
 {{/*
+Create the name of the LMS Data Service configmap
+*/}}
+{{- define "lms-data-service.lmsDataServiceConfigmapName" -}}
+{{ include "lms-data-service.name" . }}-application-config
+{{- end }}
+
+{{/*
 Create the name of the SFTP configmap
 */}}
 {{- define "lms-data-service.sftpConfigmapName" -}}
