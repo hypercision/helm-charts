@@ -15,6 +15,8 @@ databasePassword: ""
 realmName: ""
 clientId: "ojt"
 clientSecret: ""
+# The desired scopes when requesting an access token. This is a space seperated list.
+scopes: "email profile"
 # Credentials for the admin of the Keycloak server (master realm)
 masterAdminUsername: ""
 masterAdminPassword: ""
