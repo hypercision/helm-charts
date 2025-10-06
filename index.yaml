@@ -3,6 +3,44 @@ entries:
   thub:
   - apiVersion: v2
     appVersion: 2.1.0
+    created: "2025-10-06T15:03:12.785011355Z"
+    dependencies:
+    - name: assigned-item-service
+      repository: ""
+      version: 1.5.0
+    - name: item-service
+      repository: ""
+      version: 1.4.0
+    - name: keycloak-config
+      repository: ""
+      version: 0.1.2
+    - name: lms-data-service
+      repository: ""
+      version: 1.8.1
+    - name: ojt
+      repository: ""
+      version: 1.7.1
+    - name: user-service
+      repository: ""
+      version: 1.4.1
+    description: A Helm chart for OJT and Traininghub (thub) microservices
+    digest: a65a0ffbc31edbd428ce25380e479e90c99e33444e12b706494ddba44759044e
+    home: https://hypercision.github.io/helm-charts
+    name: thub
+    sources:
+    - https://github.com/hypercision/masterdata-services
+    - https://github.com/hypercision/traininghub
+    - https://github.com/hypercision/item-service
+    - https://github.com/hypercision/sflms-data-service
+    - https://github.com/hypercision/thub-event-scheduler-job
+    - https://github.com/hypercision/thub-assigned-item-service
+    - https://github.com/hypercision/user-service
+    type: application
+    urls:
+    - https://github.com/hypercision/helm-charts/releases/download/thub-1.10.3/thub-1.10.3.tgz
+    version: 1.10.3
+  - apiVersion: v2
+    appVersion: 2.1.0
     created: "2025-10-06T14:44:14.813487204Z"
     dependencies:
     - name: assigned-item-service
@@ -3459,4 +3497,4 @@ entries:
     urls:
     - https://github.com/hypercision/helm-charts/releases/download/thub-0.3.3/thub-0.3.3.tgz
     version: 0.3.3
-generated: "2025-10-06T14:44:14.81381582Z"
+generated: "2025-10-06T15:03:12.785329668Z"
