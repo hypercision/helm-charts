@@ -227,6 +227,25 @@ Create the name of the JSON file used by the learning-history-upload-job
 {{- end }}
 
 {{/*
+Create the name of the CronJob managers-scheduler-job
+*/}}
+{{- define "lms-data-service.managersSchedulerJobName" -}}
+{{ include "lms-data-service.name" . }}-managers-scheduler-job
+{{- end }}
+
+{{/*
+Create the name of the JSON file used by the managers-scheduler-job
+*/}}
+{{- define "lms-data-service.managersSchedulerJobInputFile" -}}
+{{- if .Values.managersSchedulerJob.jsonInputFile -}}
+{{ print .Values.managersSchedulerJob.jsonInputFile }}
+# The Managers data sync job can only be used by WORKDAY environments currently.
+{{- else if eq .Values.global.lmsType "WORKDAY" -}}
+{{ print "./temp/start-managers-web-job.json" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create the name of the CronJob rosters-scheduler-job
 */}}
 {{- define "lms-data-service.rostersSchedulerJobName" -}}

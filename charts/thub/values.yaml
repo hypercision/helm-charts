@@ -239,6 +239,10 @@ lms-data-service:
     enabled: true
     # Run every 33 minutes
     schedule: "*/33 * * * *"
+  managersSchedulerJob:
+    enabled: false
+  rostersSchedulerJob:
+    enabled: false
 
 ojt:
   resources: {}

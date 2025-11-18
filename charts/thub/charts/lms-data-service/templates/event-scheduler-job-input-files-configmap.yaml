@@ -74,6 +74,12 @@ data:
         "instruction": "START",
         "communicationType": "WEBSERVICE"
     }
+  start-managers-web-job.json: |
+    {
+        "type": "MANAGERS",
+        "instruction": "START",
+        "communicationType": "WEBSERVICE"
+    }
   start-rosters-web-job.json: |
     {
         "type": "ROSTERS",
