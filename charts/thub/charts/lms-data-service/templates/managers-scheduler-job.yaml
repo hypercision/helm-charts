@@ -1,0 +1,74 @@
+{{- if .Values.managersSchedulerJob.enabled -}}
+{{- if ne .Values.global.lmsType "WORKDAY" -}}
+{{- fail "The Managers data sync job (.Values.managersSchedulerJob.enabled) can only be enabled when .Values.global.lmsType is set to 'WORKDAY'." -}}
+{{- end -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "lms-data-service.managersSchedulerJobName" . }}
+  # These labels do not also get added to the pods created by this job
+  labels:
+    {{- include "lms-data-service.labels" . | nindent 4 }}
+    jobCommonName: lms-managers-scheduler-job
+  annotations:
+    description: >
+      Sends a message to the LMS Data Service application via ActiveMQ notifying it to
+      load managers from the LMS.
+spec:
+  schedule: {{ .Values.managersSchedulerJob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.managersSchedulerJob.concurrencyPolicy | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            {{- with .Values.managersSchedulerJob.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          labels:
+            {{- with .Values.managersSchedulerJob.podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        spec:
+          containers:
+          - name: thub-event-scheduler-job
+            image: "{{ .Values.managersSchedulerJob.image.repository }}:{{ .Values.managersSchedulerJob.image.tag | default (include "thub.eventSchedulerJobTag" .) }}"
+            imagePullPolicy: {{ .Values.managersSchedulerJob.image.pullPolicy }}
+            command: ["java", "-jar", "/home/app/application.jar", "jms", "{{ include "lms-data-service.managersSchedulerJobInputFile" . }}"]
+            ports:
+            - containerPort: {{ .Values.managersSchedulerJob.port }}
+              name: http-server
+            resources:
+              {{- toYaml .Values.global.eventSchedulerResources | nindent 14 }}
+            env:
+            - name: server.port
+              value: {{ .Values.managersSchedulerJob.port | quote }}
+            - name: hclabs.scheduler.destinationQueue
+              value: {{ include "thub.sfLmsDataJobQueueName" . }}
+            - name: micronaut.jms.activemq.classic.connection-string
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.brokerUrl
+            - name: micronaut.jms.activemq.classic.username
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.user
+            - name: micronaut.jms.activemq.classic.password
+              valueFrom:
+                configMapKeyRef:
+                  name: mq-broker-config
+                  key: spring.activemq.password
+            volumeMounts:
+            - name: message-file
+              mountPath: /home/app/temp
+              readOnly: true
+          volumes:
+            - name: message-file
+              configMap:
+                # Provide the name of the ConfigMap containing the files you want
+                # to add to the container
+                name: {{ include "lms-data-service.eventSchedulerInputFilesConfigmapName" . }}
+          restartPolicy: {{ .Values.managersSchedulerJob.restartPolicy }}
+{{- end }}

@@ -259,6 +259,23 @@ learningHistoryUploadJob:
   podAnnotations: {}
   podLabels: {}
 
+managersSchedulerJob:
+  enabled: false
+  # Run on the eighteenth minute of every 5th hour
+  schedule: "18 */5 * * *"
+  concurrencyPolicy: "Replace"
+  # Overrides the default JSON file used by the job
+  jsonInputFile: ""
+  image:
+    repository: 342628741687.dkr.ecr.us-west-2.amazonaws.com/thub-event-scheduler-cli-job
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the helper "thub.eventSchedulerJobTag".
+    tag: ""
+  port: 8099
+  restartPolicy: Never
+  podAnnotations: {}
+  podLabels: {}
+
 rostersSchedulerJob:
   enabled: false
   # Run on the 27th minute of every hour from 14 thru 23 and 5
