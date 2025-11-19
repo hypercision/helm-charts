@@ -129,6 +129,7 @@ jms.destinations.createCourseOfferingResultsQueue={{ .Release.Namespace }}-creat
 jms.destinations.instructorQueue={{ .Release.Namespace }}-instructorQueue
 jms.destinations.itemQueue={{ .Release.Namespace }}-itemQueue
 jms.destinations.learnerQueue={{ .Release.Namespace }}-learnerQueue
+jms.destinations.managerQueue={{ .Release.Namespace }}-managerQueue
 jms.destinations.ojtJobQueue={{ include "thub.ojtJobQueueName" . }}
 jms.destinations.sfLmsDataJobQueue={{ include "thub.sfLmsDataJobQueueName" . }}
 jms.destinations.scheduledOfferingQueue={{ .Release.Namespace }}-scheduledOfferingQueue
