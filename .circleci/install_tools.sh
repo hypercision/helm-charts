@@ -5,7 +5,7 @@ set -o errexit
 readonly CHART_RELEASER_VERSION=1.8.1
 
 echo "Installing Helm..."
-curl -fsSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+curl -fsSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-4
 chmod 700 get_helm.sh
 ./get_helm.sh
 
