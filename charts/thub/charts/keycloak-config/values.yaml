@@ -27,3 +27,6 @@ realmAdminPassword: ""
 publicServerUrl: "https://keycloak.hcl-testcloud.com"
 # URL which is only accessible within the k8s cluster
 internalServerUrl: "http://keycloakx-http.keycloak:80"
+# Whether or not to have the users created in Keycloak will automatically have their
+# "Email verified" property to true
+autoVerifyKeycloakUserEmail: true
