@@ -1,0 +1,6 @@
+.idea
+
+# Ignore test shell scripts
+*/test_trigger.sh
+test.sh
+output*.txt
