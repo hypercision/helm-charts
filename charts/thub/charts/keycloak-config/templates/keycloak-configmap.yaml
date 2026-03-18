@@ -34,4 +34,7 @@ data:
   grails.plugin.springsecurity.rest.keycloak.realmAdminUsername: {{ required "realmAdminUsername cannot be emtpy" .Values.realmAdminUsername | quote }}
   # The desired scopes when requesting an access token. This is a space seperated list.
   grails.plugin.springsecurity.rest.keycloak.scopes: {{ .Values.scopes | quote }}
+  # Whether or not to have the users created in Keycloak will automatically have their
+  # "Email verified" property to true
+  keycloak.autoVerifyKeycloakUserEmail: {{ .Values.autoVerifyKeycloakUserEmail | quote }}
 {{- end }}
